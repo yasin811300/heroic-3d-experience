@@ -1,0 +1,136 @@
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Menu, X, Phone } from "lucide-react";
+import { useState } from "react";
+
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: "خانه", href: "#" },
+    { label: "خدمات", href: "#services" },
+    { label: "نمونه‌کار", href: "#portfolio" },
+    { label: "درباره ما", href: "#about" },
+    { label: "تماس", href: "#contact" },
+  ];
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50">
+      <div className="glass-strong">
+        <div className="container mx-auto px-4 h-20 flex justify-between items-center">
+          {/* Logo */}
+          <motion.a
+            href="#"
+            className="flex items-center gap-3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-lg">
+              <span className="text-primary-foreground font-black text-lg">آ</span>
+            </div>
+            <span className="text-xl font-bold text-foreground hidden md:block">
+              آژانس ازما
+            </span>
+          </motion.a>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:block">
+            <ul className="flex gap-8">
+              {navItems.map((item, index) => (
+                <motion.li
+                  key={item.label}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <a
+                    href={item.href}
+                    className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                  >
+                    {item.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Actions */}
+          <motion.div
+            className="flex items-center gap-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <a href="tel:09914601322" className="hidden sm:flex">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Phone className="w-4 h-4" />
+                <span className="hidden lg:inline">۰۹۹۱۴۶۰۱۳۲۲</span>
+              </Button>
+            </a>
+            <Button size="sm">مشاوره رایگان</Button>
+            
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-foreground"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <motion.div
+        initial={false}
+        animate={isMenuOpen ? { x: 0 } : { x: "100%" }}
+        transition={{ type: "spring", damping: 20 }}
+        className="fixed top-0 right-0 w-4/5 h-screen glass-strong md:hidden z-50"
+      >
+        <div className="p-6">
+          <div className="flex justify-between items-center mb-10">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center">
+              <span className="text-primary-foreground font-black text-lg">آ</span>
+            </div>
+            <button onClick={() => setIsMenuOpen(false)} className="p-2">
+              <X className="w-6 h-6 text-foreground" />
+            </button>
+          </div>
+          <ul className="space-y-6">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-xl font-bold text-foreground hover:text-primary transition-colors block"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-10">
+            <Button className="w-full" size="lg">
+              مشاوره رایگان
+            </Button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Overlay */}
+      {isMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsMenuOpen(false)}
+          className="fixed inset-0 bg-background/60 backdrop-blur-sm md:hidden z-40"
+        />
+      )}
+    </header>
+  );
+};
+
+export default Header;

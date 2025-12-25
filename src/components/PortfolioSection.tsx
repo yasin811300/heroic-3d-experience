@@ -1,0 +1,114 @@
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
+import portfolio1 from "@/assets/portfolio-1.jpg";
+import portfolio2 from "@/assets/portfolio-2.jpg";
+import portfolio3 from "@/assets/portfolio-3.jpg";
+
+const projects = [
+  {
+    image: portfolio1,
+    category: "رستوران طعم خاص",
+    title: "طراحی سایت + سئو",
+    result: "افزایش ۳۰۰٪ رزرو آنلاین در ۲ ماه",
+  },
+  {
+    image: portfolio2,
+    category: "فروشگاه مردانه",
+    title: "مدیریت اینستاگرام",
+    result: "از ۲k به ۴۵k فالوور در ۶ ماه",
+  },
+  {
+    image: portfolio3,
+    category: "آژانس گردشگری",
+    title: "کمپین تبلیغاتی",
+    result: "فروش ۲۵۰٪ بیشتر در نوروز",
+  },
+];
+
+const PortfolioSection = () => {
+  return (
+    <section id="portfolio" className="py-24 relative">
+      <div className="container">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4"
+        >
+          <div>
+            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-2">
+              پروژه‌های <span className="text-gradient-gold">موفق</span> ما
+            </h2>
+            <p className="text-muted-foreground">نتیجه کار ما را ببینید</p>
+          </div>
+          <Button variant="outline" className="hidden md:flex gap-2">
+            مشاهده همه
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+        </motion.div>
+
+        {/* Portfolio Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.title}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="group relative rounded-3xl overflow-hidden h-80 cursor-pointer"
+            >
+              {/* Image */}
+              <motion.img
+                src={project.image}
+                alt={project.title}
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.6 }}
+              />
+
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileHover={{ opacity: 1, y: 0 }}
+                className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent flex flex-col justify-end p-6"
+              >
+                <span className="text-primary text-sm font-bold mb-1">
+                  {project.category}
+                </span>
+                <h3 className="text-xl font-bold text-foreground mb-2">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground text-sm">{project.result}</p>
+              </motion.div>
+
+              {/* Always visible gradient at bottom */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/90 to-transparent pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
+              <div className="absolute bottom-4 right-4 left-4 group-hover:opacity-0 transition-opacity duration-300">
+                <span className="text-primary text-sm font-bold">
+                  {project.category}
+                </span>
+                <h3 className="text-lg font-bold text-foreground">
+                  {project.title}
+                </h3>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* Mobile Button */}
+        <div className="mt-8 md:hidden">
+          <Button variant="outline" className="w-full gap-2">
+            مشاهده همه
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default PortfolioSection;
