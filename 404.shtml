@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه پیدا نشد | 404 Error</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; }
+        
+        :root {
+            --primary: #00d2ff;
+            --accent: #f59e0b;
+            --text-light: #e0f7fa;
+        }
+        
+        /* تنظیمات موس (فقط دسکتاپ) */
+        html, body { cursor: auto; }
+        @media (min-width: 1025px) { * { cursor: none !important; } }
+
+        body {
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            background-image: url('body-bg.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* استایل عدد 404 */
+        .error-code {
+            font-size: 10rem;
+            font-weight: 900;
+            line-height: 1;
+            background: -webkit-linear-gradient(#fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+            position: relative;
+            display: inline-block;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* کامپوننت‌ها */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 60px 30px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .btn-gold {
+            background: linear-gradient(45deg, #f59e0b, #ff7e5f);
+            color: white;
+            border-radius: 50px;
+            font-weight: 700;
+            padding: 12px 40px;
+            display: inline-block;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.3);
+        }
+        .btn-gold:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(245, 158, 11, 0.5); }
+
+        /* Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 999999; pointer-events: none; display: none;
+        }
+        @media (min-width: 1025px) { .cursor-dot, .cursor-outline { display: block; } }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); transition: all 0.1s ease-out; }
+
+        /* موبایل */
+        @media (max-width: 768px) {
+            .error-code { font-size: 6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot"></div><div class="cursor-outline"></div>
+
+    <div class="glass-card relative">
+        <div class="absolute top-10 left-10 text-white/5 text-9xl animate-pulse pointer-events-none">
+            <i class="fas fa-robot"></i>
+        </div>
+
+        <h1 class="error-code">404</h1>
+        <h2 class="text-3xl font-bold text-white mt-4 mb-2">اوپس! صفحه پیدا نشد</h2>
+        <p class="text-gray-400 text-lg leading-8">
+            به نظر می‌رسه توی دنیای دیجیتال گم شدی!<br>
+            صفحه‌ای که دنبالش می‌گردی وجود نداره یا آدرسش تغییر کرده.
+        </p>
+        
+        <a href="index.html" class="btn-gold group">
+            <i class="fas fa-home ml-2 group-hover:scale-110 transition"></i> بازگشت به صفحه اصلی
+        </a>
+    </div>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        if (window.matchMedia("(min-width: 1025px)").matches) {
+            window.addEventListener('mousemove', function(e) {
+                const posX = e.clientX; const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+            });
+        }
+    </script>
+</body>
+</html>

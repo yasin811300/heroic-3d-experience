@@ -1,0 +1,7 @@
+﻿User-agent: *
+Allow: /
+Disallow: /admin-users.php
+Disallow: /db.php
+Disallow: /auth.php
+
+Sitemap: https://azmamarkteng.ir/sitemap.xml

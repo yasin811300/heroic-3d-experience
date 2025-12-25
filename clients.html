@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشتریان ما | آژانس ازما</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* (همان استایل‌های فایل ایندکس را اینجا تکرار می‌کنیم تا ظاهر یکسان باشد) */
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; cursor: none; }
+        :root { --primary: #00d2ff; --accent: #f59e0b; --light-text: #e0f7fa; }
+        body {
+            background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+            background-image: url('body-bg.jpg'); background-size: cover;
+            background-attachment: fixed; background-position: center;
+            color: var(--light-text); min-height: 100vh;
+        }
+        /* استایل موس */
+        .cursor-dot, .cursor-outline { position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); border-radius: 50%; z-index: 999999; pointer-events: none; }
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); }
+        .cursor-outline { width: 40px; height: 40px; border: 2px solid var(--accent); }
+        
+        /* استایل هدر */
+        header { background: rgba(15, 32, 39, 0.9); padding: 15px 0; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        nav ul { display: flex; list-style: none; } nav ul li { margin-right: 25px; }
+        nav ul li a { color: #b0bec5; text-decoration: none; transition: 0.3s; }
+        nav ul li a:hover { color: var(--primary); }
+        .logo img { height: 45px; }
+        .btn-gold { background: linear-gradient(45deg, #f59e0b, #ff7e5f); color: white; border-radius: 50px; padding: 8px 25px; text-decoration: none; font-size: 14px; font-weight: bold; }
+        
+        /* گرید مشتریان */
+        .client-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 120px; }
+        .client-card {
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 15px;
+            padding: 30px; text-align: center; transition: 0.3s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px;
+        }
+        .client-card:hover { transform: translateY(-10px); border-color: var(--accent); background: rgba(255,255,255,0.1); }
+        .client-card i { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        
+        @media (max-width: 768px) { nav ul { display: none; } * { cursor: auto !important; } .cursor-dot, .cursor-outline { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div><div class="cursor-outline"></div>
+
+    <header>
+        <div class="container header-container">
+            <a href="index.html#contact" class="btn-gold">تماس با ما</a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="clients.html" style="color:var(--primary)">مشتریان ما</a></li>
+                    <li><a href="about.html">درباره ما</a></li>
+                </ul>
+            </nav>
+            <div class="logo flex items-center">
+                <img src="logo.png" alt="لوگو">
+                <span class="mr-2 text-white font-bold text-xl">آژانس ازما</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="client-grid">
+            <div class="client-card">
+                <i class="fas fa-building"></i>
+                <h3 class="text-xl font-bold text-white">شرکت آریا فود</h3>
+                <p class="text-gray-400 text-sm mt-2">مدیریت سوشال مدیا</p>
+            </div>
+            <div class="client-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3 class="text-xl font-bold text-white">فروشگاه موبایل پلاس</h3>
+                <p class="text-gray-400 text-sm mt-2">طراحی سایت فروشگاهی</p>
+            </div>
+            <div class="client-card">
+                <i class="fas fa-gem"></i>
+                <h3 class="text-xl font-bold text-white">جواهری نور</h3>
+                <p class="text-gray-400 text-sm mt-2">عکاسی و تیزر تبلیغاتی</p>
+            </div>
+            <div class="client-card">
+                <i class="fas fa-utensils"></i>
+                <h3 class="text-xl font-bold text-white">رستوران سنتی باران</h3>
+                <p class="text-gray-400 text-sm mt-2">کمپین تبلیغاتی</p>
+            </div>
+            <div class="client-card">
+                <i class="fas fa-tshirt"></i>
+                <h3 class="text-xl font-bold text-white">بوتیک شیک‌پوشان</h3>
+                <p class="text-gray-400 text-sm mt-2">ادمین اینستاگرام</p>
+            </div>
+             <div class="client-card">
+                <i class="fas fa-briefcase"></i>
+                <h3 class="text-xl font-bold text-white">بازرگانی سپهر</h3>
+                <p class="text-gray-400 text-sm mt-2">برندینگ و لوگو</p>
+            </div>
+        </div>
+        
+        <div class="text-center mt-12 mb-10">
+            <h2 class="text-2xl text-white font-bold">به جمع خانواده ازما بپیوندید</h2>
+            <p class="text-gray-400 mt-2">ما به موفقیت کسب‌وکار شما متعهدیم</p>
+            <a href="index.html#contact" class="btn-gold mt-6 inline-block">شروع همکاری</a>
+        </div>
+    </div>
+
+    <script>
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', function(e) {
+            const posX = e.clientX; const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`; cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 400, fill: "forwards" });
+        });
+    </script>
+</body>
+</html>
