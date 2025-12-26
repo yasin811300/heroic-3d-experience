@@ -6,54 +6,70 @@ import ChatWidget from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
 import { 
   Brush, Code, Search, Smartphone, Video, PenTool, 
-  Megaphone, BarChart3, Globe, Shield, Zap, Users,
-  Check, ArrowLeft, Star, Clock, Award, Target
+  Printer, CreditCard, Radio, BarChart3, Globe, Shield, 
+  Zap, Users, Check, ArrowLeft, Star, Clock, Award, Target
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const allServices = [
   {
-    icon: Code,
-    title: "طراحی و توسعه وب‌سایت",
-    description: "سایت‌های مدرن، سریع و واکنش‌گرا با جدیدترین تکنولوژی‌های دنیا. از فروشگاهی تا شرکتی.",
+    icon: Brush,
+    title: "طراحی لوگو و هویت بصری",
+    description: "لوگو 3D طلایی، سبک فلات مدرن، امضای لوکس با طلاکوب و نقره‌کوب.",
     features: [
-      "طراحی UI/UX حرفه‌ای",
-      "سایت فروشگاهی با درگاه پرداخت",
-      "سایت شرکتی و معرفی",
-      "پنل مدیریت اختصاصی",
-      "سرعت بالا و بهینه‌سازی",
-      "پشتیبانی ۲۴ ساعته"
+      "لوگو 3D با انیمیشن ورودی",
+      "هویت بصری کامل",
+      "آیکون اختصاصی و پانتون",
+      "دستورالعمل برند",
+      "طلاکوب و چاپ VIP",
+      "رندر حرفه‌ای"
+    ],
+    price: "از ۲ میلیون تومان",
+    duration: "۷ تا ۱۴ روز",
+    color: "from-amber-500 to-orange-500"
+  },
+  {
+    icon: Video,
+    title: "پوستر و استوری موشن",
+    description: "استوری موشن 3D، پوستر نوروز و یلدا، افکت‌های حرفه‌ای با موسیقی.",
+    features: [
+      "استوری موشن ۱۵ ثانیه‌ای",
+      "افکت‌های 3D جذاب",
+      "موسیقی رویالتی‌فری",
+      "پوستر چاپ افست",
+      "طراحی نوروز و یلدا",
+      "رنگ‌بندی پانتون"
+    ],
+    price: "از ۱.۵ میلیون تومان",
+    duration: "۳ تا ۷ روز",
+    color: "from-purple-500 to-pink-500"
+  },
+  {
+    icon: Code,
+    title: "طراحی سایت و سئو",
+    description: "فروشگاه آنلاین، سایت شرکتی، ریسپانسیو با انیمیشن اسکرول و درگاه پرداخت.",
+    features: [
+      "طراحی UI/UX مدرن",
+      "سایت فروشگاهی ووکامرس",
+      "درگاه پرداخت آنلاین",
+      "انیمیشن‌های SVG",
+      "فرم هوشمند",
+      "پنل مدیریت اختصاصی"
     ],
     price: "از ۵ میلیون تومان",
     duration: "۱۵ تا ۳۰ روز",
     color: "from-blue-500 to-cyan-500"
   },
   {
-    icon: Brush,
-    title: "طراحی هویت بصری و برندینگ",
-    description: "لوگو، ست اداری، بنر، کاتالوگ و همه چیز برای برندینگ حرفه‌ای و متمایز شما.",
-    features: [
-      "طراحی لوگو منحصربه‌فرد",
-      "کارت ویزیت و سربرگ",
-      "بسته‌بندی محصولات",
-      "طراحی کاتالوگ",
-      "بنر و پوستر تبلیغاتی",
-      "راهنمای برند"
-    ],
-    price: "از ۲ میلیون تومان",
-    duration: "۷ تا ۱۴ روز",
-    color: "from-purple-500 to-pink-500"
-  },
-  {
     icon: Search,
-    title: "بهینه‌سازی موتور جستجو (SEO)",
-    description: "سایت شما را به صفحه اول گوگل می‌رسانیم. رتبه‌بندی تضمینی و افزایش ترافیک ارگانیک.",
+    title: "سئو محلی",
+    description: "رتبه ۱ گوگل برای کلمات کلیدی هدف، گوگل مپ و ریویو حرفه‌ای.",
     features: [
-      "تحلیل کلمات کلیدی",
-      "بهینه‌سازی تکنیکال سایت",
-      "لینک‌سازی داخلی و خارجی",
-      "تولید محتوای سئو شده",
-      "گزارش ماهانه عملکرد",
+      "سئو تکنیکال کامل",
+      "ثبت در گوگل مپ",
+      "جمع‌آوری ریویو",
+      "لینک‌سازی حرفه‌ای",
+      "گزارش ماهانه",
       "رقابت با رقبا"
     ],
     price: "از ۳ میلیون تومان/ماه",
@@ -62,90 +78,74 @@ const allServices = [
   },
   {
     icon: Smartphone,
-    title: "مدیریت شبکه‌های اجتماعی",
-    description: "پیج شما را به یک برند موفق تبدیل می‌کنیم. فالوور واقعی، تعامل بالا، فروش واقعی.",
+    title: "مدیریت اینستاگرام",
+    description: "از ۲k به ۴۵k فالوور واقعی، استوری موشن روزانه، ریلز و افزایش فروش.",
     features: [
       "تولید محتوای هدفمند",
       "افزایش فالوور واقعی",
+      "استوری موشن روزانه",
+      "ریلز حرفه‌ای",
       "مدیریت کامنت و دایرکت",
-      "طراحی پست و استوری",
-      "تقویم محتوایی",
       "گزارش عملکرد هفتگی"
     ],
     price: "از ۴ میلیون تومان/ماه",
     duration: "همیشگی",
-    color: "from-orange-500 to-red-500"
+    color: "from-pink-500 to-rose-500"
   },
   {
-    icon: Video,
-    title: "تولید محتوای ویدیویی",
-    description: "ویدیوهای حرفه‌ای تبلیغاتی، معرفی محصول، موشن گرافیک و ریلز اینستاگرام.",
+    icon: CreditCard,
+    title: "کارت ویزیت NFC",
+    description: "کارت ویزیت هوشمند لمسی با چیپ قوی و طراحی اختصاصی.",
     features: [
-      "تیزر تبلیغاتی",
-      "ویدیو معرفی محصول",
-      "موشن گرافیک",
-      "ریلز و استوری ویدیویی",
-      "تدوین حرفه‌ای",
-      "صداگذاری و افکت"
-    ],
-    price: "از ۱.۵ میلیون تومان",
-    duration: "۳ تا ۷ روز",
-    color: "from-red-500 to-rose-500"
-  },
-  {
-    icon: Megaphone,
-    title: "تبلیغات دیجیتال",
-    description: "کمپین‌های تبلیغاتی هدفمند در گوگل، اینستاگرام و سایر پلتفرم‌ها با بازدهی بالا.",
-    features: [
-      "تبلیغات گوگل ادز",
-      "تبلیغات اینستاگرام",
-      "تبلیغات بنری",
-      "ریتارگتینگ",
-      "بهینه‌سازی نرخ تبدیل",
-      "گزارش ROI"
-    ],
-    price: "از ۵ میلیون تومان/ماه",
-    duration: "ماهانه",
-    color: "from-yellow-500 to-amber-500"
-  },
-  {
-    icon: PenTool,
-    title: "تولید محتوای متنی",
-    description: "محتوای سئو شده، کپی‌رایتینگ حرفه‌ای و متن‌های تبلیغاتی که می‌فروشند.",
-    features: [
-      "مقاله سئو شده",
-      "کپی‌رایتینگ فروش",
-      "متن صفحات سایت",
-      "پست شبکه‌های اجتماعی",
-      "ایمیل مارکتینگ",
-      "اسکریپت ویدیو"
+      "چیپ NFC قوی",
+      "طراحی اختصاصی",
+      "لمسی و هوشمند",
+      "پروفایل دیجیتال",
+      "اتصال به شبکه‌ها",
+      "بدون نیاز به اپ"
     ],
     price: "از ۵۰۰ هزار تومان",
-    duration: "۱ تا ۳ روز",
+    duration: "۳ تا ۵ روز",
+    color: "from-indigo-500 to-purple-500"
+  },
+  {
+    icon: Radio,
+    title: "سامانه USSD",
+    description: "منوی ستاره‌ای اختصاصی برای کسب‌وکار شما بدون نیاز به اینترنت.",
+    features: [
+      "کد اختصاصی *xxx#",
+      "منوی چند سطحی",
+      "بدون نیاز به اینترنت",
+      "پنل مدیریت",
+      "گزارش تماس‌ها",
+      "پشتیبانی ۲۴/۷"
+    ],
+    price: "از ۲ میلیون تومان",
+    duration: "۷ تا ۱۰ روز",
     color: "from-teal-500 to-cyan-500"
   },
   {
-    icon: Globe,
-    title: "طراحی اپلیکیشن موبایل",
-    description: "اپلیکیشن‌های iOS و Android با رابط کاربری زیبا و عملکرد روان.",
+    icon: Printer,
+    title: "خدمات چاپ",
+    description: "چاپ افست، طلاکوب، UV موضعی، کاتالوگ و بسته‌بندی محصولات.",
     features: [
-      "طراحی UI/UX موبایل",
-      "توسعه React Native",
-      "اتصال به API",
-      "پوش نوتیفیکیشن",
-      "پرداخت درون‌برنامه‌ای",
-      "انتشار در مارکت‌ها"
+      "چاپ افست حرفه‌ای",
+      "طلاکوب و نقره‌کوب",
+      "UV موضعی",
+      "کاتالوگ و بروشور",
+      "بسته‌بندی محصولات",
+      "کارت ویزیت لوکس"
     ],
-    price: "از ۱۵ میلیون تومان",
-    duration: "۴۵ تا ۹۰ روز",
-    color: "from-indigo-500 to-purple-500"
+    price: "از ۵۰۰ هزار تومان",
+    duration: "۳ تا ۷ روز",
+    color: "from-orange-500 to-red-500"
   }
 ];
 
 const whyChooseUs = [
-  { icon: Award, title: "تجربه ۱۰+ ساله", description: "بیش از یک دهه تجربه در صنعت دیجیتال" },
-  { icon: Users, title: "تیم متخصص", description: "تیمی از بهترین متخصصان حوزه دیجیتال" },
-  { icon: Target, title: "نتیجه‌محور", description: "تمرکز بر نتایج قابل اندازه‌گیری" },
+  { icon: Award, title: "تجربه ۶+ ساله", description: "بیش از ۶ سال تجربه در صنعت دیجیتال همدان" },
+  { icon: Users, title: "تیم ۴۲ نفره", description: "تیمی از بهترین متخصصان غرب کشور" },
+  { icon: Target, title: "نتیجه‌محور", description: "تمرکز بر نتایج قابل اندازه‌گیری و واقعی" },
   { icon: Shield, title: "گارانتی کیفیت", description: "ضمانت کیفیت و رضایت مشتری" },
   { icon: Clock, title: "تحویل به‌موقع", description: "احترام به زمان و تحویل سر موعد" },
   { icon: Zap, title: "پشتیبانی ۲۴/۷", description: "پشتیبانی همیشگی و پاسخگویی سریع" }
@@ -154,7 +154,7 @@ const whyChooseUs = [
 const stats = [
   { value: "۵۰۰+", label: "پروژه موفق" },
   { value: "۹۸٪", label: "رضایت مشتری" },
-  { value: "۱۰+", label: "سال تجربه" },
+  { value: "۶+", label: "سال تجربه" },
   { value: "۲۴/۷", label: "پشتیبانی" }
 ];
 
@@ -162,34 +162,24 @@ const Services = () => {
   return (
     <>
       <Helmet>
-        <title>خدمات آژانس ازما | طراحی سایت، سئو، برندینگ و دیجیتال مارکتینگ</title>
-        <meta name="description" content="خدمات حرفه‌ای طراحی سایت، سئو، برندینگ، مدیریت شبکه‌های اجتماعی، تولید محتوا و دیجیتال مارکتینگ با بهترین کیفیت و قیمت مناسب." />
-        <meta name="keywords" content="طراحی سایت, سئو, برندینگ, دیجیتال مارکتینگ, تولید محتوا, مدیریت اینستاگرام" />
-        <link rel="canonical" href="https://azma.ir/services" />
+        <title>خدمات حرفه‌ای | آژانس دیجیتال مارکتینگ ازما – طلایی کردن برندها</title>
+        <meta name="description" content="طراحی سایت، مدیریت اینستاگرام، سئو، طراحی لوگو، پوستر، استوری موشن، چاپ، NFC، USSD | بهترین خدمات دیجیتال مارکتینگ در همدان" />
+        <meta name="keywords" content="خدمات دیجیتال مارکتینگ, طراحی سایت همدان, مدیریت اینستاگرام, سئو, طراحی لوگو, پوستر, استوری موشن, چاپ, NFC, USSD" />
+        <link rel="canonical" href="https://azmamarkteng.ir/services" />
         <meta property="og:title" content="خدمات آژانس ازما | طراحی سایت و دیجیتال مارکتینگ" />
-        <meta property="og:description" content="خدمات حرفه‌ای طراحی سایت، سئو، برندینگ و دیجیتال مارکتینگ" />
+        <meta property="og:description" content="خدمات حرفه‌ای طراحی سایت، سئو، برندینگ و دیجیتال مارکتینگ در همدان" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Service",
-            "serviceType": "Digital Marketing Agency",
-            "provider": {
-              "@type": "Organization",
-              "name": "آژانس ازما",
-              "url": "https://azma.ir"
-            },
-            "areaServed": "Iran",
-            "hasOfferCatalog": {
-              "@type": "OfferCatalog",
-              "name": "خدمات دیجیتال",
-              "itemListElement": allServices.map(service => ({
-                "@type": "Offer",
-                "itemOffered": {
-                  "@type": "Service",
-                  "name": service.title
-                }
-              }))
+            "@type": "WebPage",
+            "name": "خدمات آژانس ازما",
+            "description": "خدمات حرفه‌ای دیجیتال مارکتینگ",
+            "url": "https://azmamarkteng.ir/services",
+            "publisher": {
+              "@type": "DigitalMarketingAgency",
+              "name": "آژانس دیجیتال مارکتینگ ازما",
+              "telephone": "09914601322"
             }
           })}
         </script>
@@ -203,7 +193,7 @@ const Services = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent opacity-50" />
           <div className="absolute top-20 right-10 w-72 h-72 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
-          <div className="absolute bottom-20 left-10 w-96 h-96 bg-gold/20 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-20 left-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] animate-pulse" />
           
           <div className="container relative z-10">
             <motion.div
@@ -216,18 +206,22 @@ const Services = () => {
                 خدمات حرفه‌ای دیجیتال
               </span>
               <h1 className="text-4xl md:text-6xl font-black text-foreground mb-6 leading-tight">
-                همه چیز برای <span className="text-gradient-gold">موفقیت دیجیتال</span> شما
+                خدمات <span className="text-gradient-gold">طلایی</span> ما
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                از طراحی سایت و برندینگ تا سئو و دیجیتال مارکتینگ، ما همراه شما هستیم
+                از صفر تا صد دنیای دیجیتال و فیزیکی برند شما را می‌سازیم: طراحی سایت، مدیریت اینستاگرام، سئو، طراحی لوگو، پوستر، استوری موشن، چاپ، NFC و USSD.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="gap-2">
-                  مشاوره رایگان
-                  <ArrowLeft className="w-5 h-5" />
+                <Button size="lg" className="gap-2" asChild>
+                  <Link to="/contact">
+                    مشاوره رایگان
+                    <ArrowLeft className="w-5 h-5" />
+                  </Link>
                 </Button>
-                <Button size="lg" variant="outline">
-                  مشاهده نمونه‌کارها
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/portfolio">
+                    مشاهده نمونه‌کارها
+                  </Link>
                 </Button>
               </div>
             </motion.div>
@@ -310,8 +304,8 @@ const Services = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full mt-4" variant="outline">
-                    درخواست مشاوره
+                  <Button className="w-full mt-4" variant="outline" asChild>
+                    <Link to="/contact">درخواست مشاوره</Link>
                   </Button>
                 </motion.article>
               ))}
@@ -391,12 +385,14 @@ const Services = () => {
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   className="text-center relative"
                 >
-                  <div className="text-7xl font-black text-primary/10 mb-4">{item.step}</div>
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center mx-auto mb-6 text-3xl font-black text-primary-foreground shadow-lg shadow-primary/30">
+                    {item.step}
+                  </div>
+                  {index < 3 && (
+                    <div className="hidden md:block absolute top-10 -left-4 w-8 h-0.5 bg-gradient-to-l from-primary to-transparent" />
+                  )}
                   <h3 className="text-xl font-bold text-foreground mb-2">{item.title}</h3>
                   <p className="text-muted-foreground text-sm">{item.description}</p>
-                  {index < 3 && (
-                    <div className="hidden md:block absolute top-1/4 left-0 w-full h-0.5 bg-gradient-to-l from-primary/30 to-transparent -z-10" />
-                  )}
                 </motion.div>
               ))}
             </div>
@@ -405,31 +401,38 @@ const Services = () => {
 
         {/* CTA Section */}
         <section className="py-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-gold/10 to-primary/20" />
-          <div className="container relative z-10">
+          <div className="container">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="glass rounded-3xl p-12 text-center max-w-4xl mx-auto"
+              className="glass rounded-3xl p-12 text-center relative overflow-hidden"
             >
-              <Star className="w-16 h-16 text-primary mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
-                آماده شروع هستید؟
-              </h2>
-              <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-                همین الان با ما تماس بگیرید و مشاوره رایگان دریافت کنید. تیم ما آماده کمک به شماست.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/contact">
-                  <Button size="lg" className="gap-2">
-                    درخواست مشاوره رایگان
-                    <ArrowLeft className="w-5 h-5" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-cyan-500/10" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px]" />
+              
+              <div className="relative z-10">
+                <Star className="w-12 h-12 text-primary mx-auto mb-6" />
+                <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
+                  آماده شروع هستید؟
+                </h2>
+                <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+                  همین الان مشاوره رایگان دریافت کنید و اولین قدم را به سوی موفقیت بردارید
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button size="lg" className="gap-2" asChild>
+                    <Link to="/contact">
+                      درخواست مشاوره رایگان
+                      <ArrowLeft className="w-5 h-5" />
+                    </Link>
                   </Button>
-                </Link>
-                <Button size="lg" variant="outline">
-                  تماس: ۰۹۹۱۴۶۰۱۳۲۲
-                </Button>
+                  <Button size="lg" variant="outline" asChild>
+                    <a href="tel:09914601322">
+                      تماس فوری: ۰۹۹۱۴۶۰۱۳۲۲
+                    </a>
+                  </Button>
+                </div>
               </div>
             </motion.div>
           </div>
