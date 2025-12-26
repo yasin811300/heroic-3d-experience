@@ -2,16 +2,19 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
 import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   const navItems = [
-    { label: "خانه", href: "#" },
-    { label: "خدمات", href: "#services" },
-    { label: "نمونه‌کار", href: "#portfolio" },
-    { label: "درباره ما", href: "#about" },
-    { label: "تماس", href: "#contact" },
+    { label: "خانه", href: isHomePage ? "#" : "/" },
+    { label: "خدمات", href: isHomePage ? "#services" : "/#services" },
+    { label: "نمونه‌کار", href: "/portfolio" },
+    { label: "درباره ما", href: isHomePage ? "#about" : "/#about" },
+    { label: "تماس", href: isHomePage ? "#contact" : "/#contact" },
   ];
 
   return (
@@ -19,20 +22,20 @@ const Header = () => {
       <div className="glass-strong">
         <div className="container mx-auto px-4 h-20 flex justify-between items-center">
           {/* Logo */}
-          <motion.a
-            href="#"
-            className="flex items-center gap-3"
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-lg">
-              <span className="text-primary-foreground font-black text-lg">آ</span>
-            </div>
-            <span className="text-xl font-bold text-foreground hidden md:block">
-              آژانس ازما
-            </span>
-          </motion.a>
+            <Link to="/" className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-lg">
+                <span className="text-primary-foreground font-black text-lg">آ</span>
+              </div>
+              <span className="text-xl font-bold text-foreground hidden md:block">
+                آژانس ازما
+              </span>
+            </Link>
+          </motion.div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
@@ -44,12 +47,21 @@ const Header = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <a
-                    href={item.href}
-                    className="text-muted-foreground hover:text-primary transition-colors font-medium"
-                  >
-                    {item.label}
-                  </a>
+                  {item.href.startsWith("/") ? (
+                    <Link
+                      to={item.href}
+                      className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className="text-muted-foreground hover:text-primary transition-colors font-medium"
+                    >
+                      {item.label}
+                    </a>
+                  )}
                 </motion.li>
               ))}
             </ul>
@@ -101,13 +113,23 @@ const Header = () => {
           <ul className="space-y-6">
             {navItems.map((item) => (
               <li key={item.label}>
-                <a
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-xl font-bold text-foreground hover:text-primary transition-colors block"
-                >
-                  {item.label}
-                </a>
+                {item.href.startsWith("/") ? (
+                  <Link
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-xl font-bold text-foreground hover:text-primary transition-colors block"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-xl font-bold text-foreground hover:text-primary transition-colors block"
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
