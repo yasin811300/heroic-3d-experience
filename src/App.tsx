@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import AdminAuth from "./pages/AdminAuth";
 import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin/login" element={<AdminAuth />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/dashboard" element={<UserDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
