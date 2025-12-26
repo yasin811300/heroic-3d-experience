@@ -12,15 +12,77 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, type } = await req.json();
+    const { messages, type, generateImage } = await req.json();
     
-    console.log('AI Content Assistant called with type:', type);
+    console.log('AI Content Assistant called with type:', type, 'generateImage:', generateImage);
     console.log('Messages count:', messages?.length);
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       console.error('LOVABLE_API_KEY is not configured');
       throw new Error("LOVABLE_API_KEY is not configured");
+    }
+
+    // Handle image generation
+    if (generateImage) {
+      const lastMessage = messages[messages.length - 1];
+      const prompt = lastMessage?.content || '';
+      
+      console.log('Generating image with prompt:', prompt);
+      
+      const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-image-preview",
+          messages: [
+            { 
+              role: "user", 
+              content: `Generate a high-quality, professional image based on this description: ${prompt}. Make it visually stunning and detailed.`
+            }
+          ],
+          modalities: ["image", "text"]
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('AI Gateway error:', response.status, errorText);
+        
+        if (response.status === 429) {
+          return new Response(JSON.stringify({ error: "محدودیت درخواست. لطفا کمی صبر کنید." }), {
+            status: 429,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        if (response.status === 402) {
+          return new Response(JSON.stringify({ error: "اعتبار کافی نیست. لطفا اعتبار خود را شارژ کنید." }), {
+            status: 402,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+        
+        return new Response(JSON.stringify({ error: "خطا در تولید تصویر" }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      const data = await response.json();
+      console.log('Image generation response received');
+      
+      const textContent = data.choices?.[0]?.message?.content || 'تصویر شما آماده است!';
+      const imageUrl = data.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+      
+      return new Response(JSON.stringify({ 
+        text: textContent,
+        imageUrl: imageUrl 
+      }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // System prompts based on type
@@ -42,7 +104,10 @@ serve(async (req) => {
       از تکنیک‌های روانشناسی فروش استفاده کنید.`,
       
       email: `شما متخصص نوشتن ایمیل‌های حرفه‌ای هستید.
-      ایمیل‌های واضح، مختصر و موثر با subject line های جذاب بنویسید.`
+      ایمیل‌های واضح، مختصر و موثر با subject line های جذاب بنویسید.`,
+
+      image: `شما یک دستیار تولید تصویر هستید. به کاربر کمک کنید تا توضیحات بهتری برای تصویر مورد نظرش بنویسد.
+      پیشنهاداتی برای بهبود prompt تصویر ارائه دهید.`
     };
 
     const systemPrompt = systemPrompts[type] || systemPrompts.general;
