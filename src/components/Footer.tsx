@@ -1,14 +1,16 @@
 import { motion } from "framer-motion";
-import { Phone, MapPin, Instagram, Send } from "lucide-react";
+import { Phone, MapPin, Instagram, Send, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { label: "صفحه اصلی", href: "#" },
-    { label: "خدمات ما", href: "#services" },
-    { label: "نمونه‌کارها", href: "#portfolio" },
-    { label: "تماس با ما", href: "#contact" },
+    { label: "صفحه اصلی", href: "/" },
+    { label: "خدمات ما", href: "/services" },
+    { label: "نمونه‌کارها", href: "/portfolio" },
+    { label: "تماس با ما", href: "/contact" },
+    { label: "ورود / ثبت‌نام", href: "/auth" },
   ];
 
   return (
@@ -70,12 +72,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-primary hover:pr-2 transition-all text-sm"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
