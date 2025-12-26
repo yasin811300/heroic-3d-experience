@@ -1,13 +1,33 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Phone } from "lucide-react";
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Menu, X, Phone, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+  };
 
   const navItems = [
     { label: "خانه", href: "/" },
@@ -80,7 +100,21 @@ const Header = () => {
                 <span className="hidden lg:inline">۰۹۹۱۴۶۰۱۳۲۲</span>
               </Button>
             </a>
-            <Button size="sm">مشاوره رایگان</Button>
+            
+            {user ? (
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={handleLogout}>
+                  خروج
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth">
+                <Button size="sm" className="gap-2">
+                  <User className="w-4 h-4" />
+                  <span className="hidden sm:inline">ورود / ثبت‌نام</span>
+                </Button>
+              </Link>
+            )}
             
             {/* Mobile Menu Button */}
             <button
