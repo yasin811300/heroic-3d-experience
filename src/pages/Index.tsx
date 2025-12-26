@@ -1,12 +1,21 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
+import StatsSection from "@/components/StatsSection";
 import PortfolioSection from "@/components/PortfolioSection";
+import ProcessSection from "@/components/ProcessSection";
+import TeamSection from "@/components/TeamSection";
+import ClientsSection from "@/components/ClientsSection";
+import PricingSection from "@/components/PricingSection";
+import TechSection from "@/components/TechSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import BlogSection from "@/components/BlogSection";
 import FAQSection from "@/components/FAQSection";
+import ContactSection from "@/components/ContactSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
+import MusicPlayer from "@/components/MusicPlayer";
 import { useEffect, useRef } from "react";
 
 const Index = () => {
@@ -36,16 +45,27 @@ const Index = () => {
       {/* Noise Overlay */}
       <div className="noise-overlay" />
       
+      {/* Music Player */}
+      <MusicPlayer />
+      
       {/* Header */}
       <Header />
 
       {/* Main Content */}
       <main>
         <HeroSection />
+        <ClientsSection />
         <ServicesSection />
+        <StatsSection />
         <PortfolioSection />
+        <ProcessSection />
+        <PricingSection />
+        <TechSection />
+        <TeamSection />
         <TestimonialsSection />
+        <BlogSection />
         <FAQSection />
+        <ContactSection />
         <CTASection />
       </main>
 

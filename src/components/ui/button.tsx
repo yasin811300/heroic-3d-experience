@@ -23,6 +23,8 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-primary to-gold-light text-primary-foreground shadow-[0_0_40px_-10px_hsl(38,92%,50%)] hover:shadow-[0_0_60px_-10px_hsl(38,92%,50%)] hover:scale-105 active:scale-100 text-lg",
         glass:
           "bg-card/40 backdrop-blur-xl border border-border/50 text-foreground hover:bg-foreground/10 hover:border-primary/50",
+        "gradient-gold":
+          "bg-gradient-to-r from-primary to-gold-light text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 active:scale-100",
       },
       size: {
         default: "h-12 px-6 py-3",
