@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { 
   Phone, Mail, MapPin, Clock, Send, MessageCircle,
-  Instagram, Linkedin, Twitter, ArrowLeft, CheckCircle,
+  Instagram, ArrowLeft, CheckCircle,
   Building2, Headphones, Globe, Zap
 } from "lucide-react";
 import { useState } from "react";
@@ -19,67 +19,48 @@ const contactInfo = [
     icon: Phone,
     title: "تلفن تماس",
     value: "۰۹۹۱۴۶۰۱۳۲۲",
-    subValue: "۰۲۱-۸۸۷۷۶۶۵۵",
+    subValue: "۰۹۳۰۰۸۸۱۴۱۳",
     link: "tel:09914601322"
   },
   {
-    icon: Mail,
-    title: "ایمیل",
-    value: "info@azma.ir",
-    subValue: "support@azma.ir",
-    link: "mailto:info@azma.ir"
+    icon: MessageCircle,
+    title: "تلگرام",
+    value: "@yasinsalarnazm",
+    subValue: "پاسخگویی سریع",
+    link: "https://t.me/yasinsalarnazm"
   },
   {
     icon: MapPin,
     title: "آدرس دفتر",
-    value: "تهران، سعادت‌آباد",
-    subValue: "خیابان علامه شمالی، پلاک ۱۲۳",
+    value: "همدان، شهرک مدنی",
+    subValue: "بلوار امام خمینی",
     link: "#"
   },
   {
     icon: Clock,
     title: "ساعات کاری",
-    value: "شنبه تا پنج‌شنبه",
-    subValue: "۹ صبح تا ۶ عصر",
+    value: "شنبه تا چهارشنبه: ۹-۱۸",
+    subValue: "پنج‌شنبه: ۹-۱۴ | جمعه: آنلاین",
     link: "#"
   }
 ];
 
 const socialLinks = [
-  { icon: Instagram, label: "اینستاگرام", href: "https://instagram.com/azma.ir", color: "from-pink-500 to-purple-500" },
-  { icon: Linkedin, label: "لینکدین", href: "https://linkedin.com/company/azma", color: "from-blue-600 to-blue-400" },
-  { icon: Twitter, label: "توییتر", href: "https://twitter.com/azma_ir", color: "from-sky-400 to-sky-600" },
-  { icon: MessageCircle, label: "تلگرام", href: "https://t.me/azma_ir", color: "from-blue-400 to-cyan-400" }
+  { icon: Instagram, label: "اینستاگرام", href: "https://instagram.com/yasinsalarnazm", color: "from-pink-500 to-purple-500" },
+  { icon: MessageCircle, label: "تلگرام", href: "https://t.me/yasinsalarnazm", color: "from-blue-400 to-cyan-400" },
+  { icon: Phone, label: "واتساپ", href: "https://wa.me/989914601322", color: "from-green-400 to-emerald-500" },
 ];
 
 const services = [
   "طراحی سایت",
   "سئو و بهینه‌سازی",
-  "برندینگ",
-  "مدیریت شبکه‌های اجتماعی",
-  "تولید محتوا",
-  "تبلیغات دیجیتال",
-  "اپلیکیشن موبایل",
+  "طراحی لوگو",
+  "مدیریت اینستاگرام",
+  "پوستر و استوری موشن",
+  "چاپ و طلاکوب",
+  "کارت NFC",
+  "سامانه USSD",
   "سایر خدمات"
-];
-
-const faqs = [
-  {
-    question: "چقدر طول می‌کشد تا پروژه تکمیل شود؟",
-    answer: "زمان تکمیل پروژه بسته به نوع و پیچیدگی آن متفاوت است. یک سایت ساده ۲ تا ۳ هفته و پروژه‌های بزرگتر ۱ تا ۳ ماه زمان می‌برند."
-  },
-  {
-    question: "آیا پشتیبانی بعد از تحویل پروژه دارید؟",
-    answer: "بله! ما ۳ ماه پشتیبانی رایگان بعد از تحویل پروژه ارائه می‌دهیم و پلن‌های پشتیبانی سالانه نیز داریم."
-  },
-  {
-    question: "نحوه پرداخت چگونه است؟",
-    answer: "معمولاً ۵۰٪ پیش‌پرداخت و ۵۰٪ پس از تحویل نهایی. برای پروژه‌های بزرگ امکان پرداخت مرحله‌ای وجود دارد."
-  },
-  {
-    question: "آیا امکان ملاقات حضوری وجود دارد؟",
-    answer: "بله! دفتر ما در تهران، سعادت‌آباد قرار دارد و از ملاقات حضوری استقبال می‌کنیم. همچنین جلسات آنلاین هم برگزار می‌کنیم."
-  }
 ];
 
 const features = [
@@ -95,30 +76,41 @@ const Contact = () => {
     email: "",
     phone: "",
     service: "",
-    budget: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validation
+    if (!formData.name || !formData.phone || !formData.message) {
+      toast.error("لطفاً تمام فیلدهای ضروری را پر کنید.");
+      return;
+    }
+    
+    if (!/^09[0-9]{9}$/.test(formData.phone)) {
+      toast.error("شماره موبایل معتبر نیست. (مثال: 09123456789)");
+      return;
+    }
+    
     setIsSubmitting(true);
     
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    toast.success("پیام شما با موفقیت ارسال شد! به زودی با شما تماس می‌گیریم.");
-    setFormData({ name: "", email: "", phone: "", service: "", budget: "", message: "" });
+    toast.success("پیام شما با موفقیت ارسال شد! به زودی با شما تماس خواهیم گرفت.");
+    setFormData({ name: "", email: "", phone: "", service: "", message: "" });
     setIsSubmitting(false);
   };
 
   return (
     <>
       <Helmet>
-        <title>تماس با ما | آژانس دیجیتال ازما</title>
-        <meta name="description" content="با آژانس ازما تماس بگیرید. مشاوره رایگان، پاسخگویی سریع و تیم پشتیبانی ۲۴/۷. تلفن: ۰۹۹۱۴۶۰۱۳۲۲" />
-        <meta name="keywords" content="تماس با ازما, مشاوره رایگان, طراحی سایت تهران, آژانس دیجیتال" />
-        <link rel="canonical" href="https://azma.ir/contact" />
+        <title>تماس با ما | آژانس دیجیتال مارکتینگ ازما – همدان</title>
+        <meta name="description" content="راه‌های ارتباطی با آژانس ازما | تلفن: ۰۹۹۱۴۶۰۱۳۲۲ | آدرس: همدان، شهرک مدنی | مشاوره رایگان دیجیتال مارکتینگ" />
+        <meta name="keywords" content="تماس با ازما, مشاوره رایگان, طراحی سایت همدان, آژانس دیجیتال همدان" />
+        <link rel="canonical" href="https://azmamarkteng.ir/contact" />
         <meta property="og:title" content="تماس با آژانس ازما | مشاوره رایگان" />
         <meta property="og:description" content="با ما تماس بگیرید و مشاوره رایگان دریافت کنید" />
         <script type="application/ld+json">
@@ -126,24 +118,33 @@ const Contact = () => {
             "@context": "https://schema.org",
             "@type": "ContactPage",
             "name": "تماس با آژانس ازما",
-            "url": "https://azma.ir/contact",
+            "url": "https://azmamarkteng.ir/contact",
             "mainEntity": {
-              "@type": "Organization",
-              "name": "آژانس ازما",
+              "@type": "DigitalMarketingAgency",
+              "name": "آژانس دیجیتال مارکتینگ ازما",
               "telephone": "+989914601322",
-              "email": "info@azma.ir",
+              "email": "info@azmamarkteng.ir",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "سعادت‌آباد، خیابان علامه شمالی",
-                "addressLocality": "تهران",
+                "streetAddress": "شهرک مدنی، بلوار امام خمینی",
+                "addressLocality": "همدان",
+                "addressRegion": "همدان",
                 "addressCountry": "IR"
               },
-              "openingHoursSpecification": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-                "opens": "09:00",
-                "closes": "18:00"
-              }
+              "openingHoursSpecification": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
+                  "opens": "09:00",
+                  "closes": "18:00"
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": "Thursday",
+                  "opens": "09:00",
+                  "closes": "14:00"
+                }
+              ]
             }
           })}
         </script>
@@ -157,7 +158,7 @@ const Contact = () => {
         <section className="pt-32 pb-20 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-radial from-primary/20 via-transparent to-transparent opacity-50" />
           <div className="absolute top-20 right-20 w-72 h-72 bg-primary/30 rounded-full blur-[100px] animate-pulse" />
-          <div className="absolute bottom-10 left-20 w-96 h-96 bg-gold/20 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-10 left-20 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] animate-pulse" />
           
           <div className="container relative z-10">
             <motion.div
@@ -170,10 +171,10 @@ const Contact = () => {
                 ارتباط با ما
               </span>
               <h1 className="text-4xl md:text-6xl font-black text-foreground mb-6 leading-tight">
-                منتظر <span className="text-gradient-gold">صدای شما</span> هستیم
+                ارتباط با <span className="text-gradient-gold">ما</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                سوالی دارید؟ پروژه‌ای در ذهن دارید؟ همین الان با ما صحبت کنید!
+                آماده‌ایم تا پروژه شما را به واقعیت تبدیل کنیم 🚀
               </p>
             </motion.div>
 
@@ -209,13 +210,15 @@ const Contact = () => {
                 className="space-y-6"
               >
                 <h2 className="text-2xl font-bold text-foreground mb-8">
-                  اطلاعات تماس
+                  راه‌های ارتباطی
                 </h2>
                 
                 {contactInfo.map((info, index) => (
                   <motion.a
                     key={info.title}
                     href={info.link}
+                    target={info.link.startsWith("http") ? "_blank" : undefined}
+                    rel={info.link.startsWith("http") ? "noopener noreferrer" : undefined}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -252,6 +255,20 @@ const Contact = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Quick Call */}
+                <motion.a
+                  href="tel:09914601322"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="block"
+                >
+                  <Button size="lg" className="w-full gap-2">
+                    <Phone className="w-5 h-5" />
+                    تماس فوری
+                  </Button>
+                </motion.a>
               </motion.div>
 
               {/* Contact Form */}
@@ -263,11 +280,12 @@ const Contact = () => {
                 className="lg:col-span-2"
               >
                 <div className="glass rounded-3xl p-8 md:p-12">
-                  <h2 className="text-2xl font-bold text-foreground mb-2">
-                    فرم درخواست مشاوره
+                  <h2 className="text-2xl font-bold text-foreground mb-2 flex items-center gap-3">
+                    <Mail className="w-6 h-6 text-primary" />
+                    ارسال پیام
                   </h2>
                   <p className="text-muted-foreground mb-8">
-                    فرم زیر را پر کنید، کارشناسان ما در اسرع وقت با شما تماس می‌گیرند
+                    فرم زیر را تکمیل کنید تا در اسرع وقت پاسخ دهیم
                   </p>
 
                   <form onSubmit={handleSubmit} className="space-y-6">
@@ -286,15 +304,16 @@ const Contact = () => {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">
-                          شماره تماس *
+                          شماره موبایل *
                         </label>
                         <Input
                           required
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                          placeholder="۰۹xxxxxxxxx"
                           className="bg-secondary/50"
+                          dir="ltr"
                         />
                       </div>
                     </div>
@@ -302,7 +321,7 @@ const Contact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">
-                          ایمیل
+                          ایمیل (اختیاری)
                         </label>
                         <Input
                           type="email"
@@ -310,14 +329,14 @@ const Contact = () => {
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           placeholder="email@example.com"
                           className="bg-secondary/50"
+                          dir="ltr"
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">
-                          خدمات مورد نظر *
+                          موضوع پیام
                         </label>
                         <select
-                          required
                           value={formData.service}
                           onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                           className="w-full h-10 px-3 rounded-md border border-input bg-secondary/50 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
@@ -332,31 +351,13 @@ const Contact = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
-                        بودجه تقریبی
-                      </label>
-                      <select
-                        value={formData.budget}
-                        onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                        className="w-full h-10 px-3 rounded-md border border-input bg-secondary/50 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                      >
-                        <option value="">انتخاب کنید</option>
-                        <option value="under-5">زیر ۵ میلیون تومان</option>
-                        <option value="5-10">۵ تا ۱۰ میلیون تومان</option>
-                        <option value="10-20">۱۰ تا ۲۰ میلیون تومان</option>
-                        <option value="20-50">۲۰ تا ۵۰ میلیون تومان</option>
-                        <option value="50+">بیش از ۵۰ میلیون تومان</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        توضیحات پروژه *
+                        پیام شما *
                       </label>
                       <Textarea
                         required
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="پروژه خود را توضیح دهید..."
+                        placeholder="پیام شما..."
                         rows={5}
                         className="bg-secondary/50"
                       />
@@ -372,8 +373,8 @@ const Contact = () => {
                         <>در حال ارسال...</>
                       ) : (
                         <>
-                          ارسال درخواست
                           <Send className="w-5 h-5" />
+                          ارسال درخواست
                         </>
                       )}
                     </Button>
@@ -394,10 +395,10 @@ const Contact = () => {
               className="text-center mb-12"
             >
               <h2 className="text-3xl font-black text-foreground mb-4">
-                موقعیت <span className="text-gradient-gold">دفتر ما</span>
+                موقعیت <span className="text-gradient-gold">ما</span>
               </h2>
               <p className="text-muted-foreground">
-                تهران، سعادت‌آباد، خیابان علامه شمالی، پلاک ۱۲۳
+                همدان، شهرک مدنی، بلوار امام خمینی
               </p>
             </motion.div>
 
@@ -405,17 +406,17 @@ const Contact = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="glass rounded-3xl overflow-hidden h-[400px]"
+              className="glass rounded-3xl overflow-hidden h-96"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.2775946959!2d51.37673!3d35.7731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDQ2JzIzLjIiTiA1McKwMjInMzYuMiJF!5e0!3m2!1sen!2s!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3275.9999999999995!2d48.5146!3d34.7991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDQ3JzU2LjgiTiA0OMKwMzAnNTIuNiJF!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="نقشه دفتر آژانس ازما"
+                title="موقعیت آژانس ازما"
               />
             </motion.div>
           </div>
@@ -433,66 +434,45 @@ const Contact = () => {
               <h2 className="text-3xl font-black text-foreground mb-4">
                 سوالات <span className="text-gradient-gold">متداول</span>
               </h2>
-              <p className="text-muted-foreground">
-                پاسخ سوالات رایج شما
-              </p>
             </motion.div>
 
             <div className="max-w-3xl mx-auto space-y-4">
-              {faqs.map((faq, index) => (
-                <motion.div
+              {[
+                {
+                  question: "چقدر طول می‌کشد تا پروژه تکمیل شود؟",
+                  answer: "زمان تکمیل بسته به نوع پروژه متفاوت است. یک لوگو ۷ تا ۱۴ روز، سایت ۱۵ تا ۳۰ روز و مدیریت اینستاگرام به صورت ماهانه انجام می‌شود."
+                },
+                {
+                  question: "آیا پشتیبانی بعد از تحویل پروژه دارید؟",
+                  answer: "بله! ما ۳ ماه پشتیبانی رایگان بعد از تحویل پروژه ارائه می‌دهیم و پلن‌های پشتیبانی سالانه نیز داریم."
+                },
+                {
+                  question: "نحوه پرداخت چگونه است؟",
+                  answer: "معمولاً ۵۰٪ پیش‌پرداخت و ۵۰٪ پس از تحویل نهایی. برای پروژه‌های بزرگ امکان پرداخت مرحله‌ای وجود دارد."
+                },
+                {
+                  question: "آیا امکان ملاقات حضوری وجود دارد؟",
+                  answer: "بله! دفتر ما در همدان، شهرک مدنی قرار دارد و از ملاقات حضوری استقبال می‌کنیم. جلسات آنلاین هم برگزار می‌کنیم."
+                }
+              ].map((faq, index) => (
+                <motion.details
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="glass rounded-2xl p-6"
+                  transition={{ delay: index * 0.1 }}
+                  className="glass rounded-2xl p-6 group"
                 >
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-                    <div>
-                      <h3 className="font-bold text-foreground mb-2">{faq.question}</h3>
-                      <p className="text-muted-foreground text-sm">{faq.answer}</p>
-                    </div>
-                  </div>
-                </motion.div>
+                  <summary className="font-bold text-foreground cursor-pointer list-none flex items-center justify-between">
+                    {faq.question}
+                    <ArrowLeft className="w-5 h-5 text-primary transform group-open:rotate-90 transition-transform" />
+                  </summary>
+                  <p className="text-muted-foreground mt-4 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </motion.details>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-20 relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-gold/10 to-primary/20" />
-          <div className="container relative z-10">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="glass rounded-3xl p-12 text-center max-w-4xl mx-auto"
-            >
-              <Phone className="w-16 h-16 text-primary mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
-                ترجیح می‌دهید صحبت کنیم؟
-              </h2>
-              <p className="text-muted-foreground text-lg mb-8">
-                همین الان تماس بگیرید و مشاوره رایگان دریافت کنید
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <a href="tel:09914601322">
-                  <Button size="lg" className="gap-2">
-                    <Phone className="w-5 h-5" />
-                    ۰۹۹۱۴۶۰۱۳۲۲
-                  </Button>
-                </a>
-                <a href="https://wa.me/989914601322" target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" variant="outline" className="gap-2">
-                    <MessageCircle className="w-5 h-5" />
-                    واتساپ
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
           </div>
         </section>
 
