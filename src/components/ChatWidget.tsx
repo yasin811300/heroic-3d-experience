@@ -1,18 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Send, Sparkles, FileText, Share2, Mail, Megaphone, Loader2, Copy, Check, MessageCircle } from 'lucide-react';
+import { X, Send, Sparkles, FileText, Share2, Mail, Megaphone, Loader2, Copy, Check, MessageCircle, Image, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
+  imageUrl?: string;
 };
 
-type ContentType = 'general' | 'blog' | 'social' | 'marketing' | 'email';
+type ContentType = 'general' | 'blog' | 'social' | 'marketing' | 'email' | 'image';
 
 const contentTypes: { id: ContentType; label: string; icon: React.ReactNode; description: string }[] = [
   { id: 'general', label: 'عمومی', icon: <Sparkles className="w-4 h-4" />, description: 'دستیار همه‌کاره' },
+  { id: 'image', label: 'تصویر', icon: <Image className="w-4 h-4" />, description: 'تولید تصویر' },
   { id: 'blog', label: 'بلاگ', icon: <FileText className="w-4 h-4" />, description: 'نوشتن مقاله' },
   { id: 'social', label: 'شبکه اجتماعی', icon: <Share2 className="w-4 h-4" />, description: 'پست و کپشن' },
   { id: 'marketing', label: 'بازاریابی', icon: <Megaphone className="w-4 h-4" />, description: 'متن تبلیغاتی' },
@@ -52,6 +54,16 @@ const ChatWidget = () => {
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
+  const downloadImage = (imageUrl: string) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = `ai-image-${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success('تصویر دانلود شد!');
+  };
+
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
 
@@ -60,6 +72,47 @@ const ChatWidget = () => {
     setInput('');
     setIsLoading(true);
 
+    // Check if this is an image generation request
+    const isImageRequest = contentType === 'image';
+
+    if (isImageRequest) {
+      // Non-streaming image generation
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ 
+            messages: [...messages, userMessage],
+            type: contentType,
+            generateImage: true
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'خطا در تولید تصویر');
+        }
+
+        const data = await response.json();
+        
+        setMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: data.text || 'تصویر شما آماده است!',
+          imageUrl: data.imageUrl 
+        }]);
+      } catch (error) {
+        console.error('Image generation error:', error);
+        toast.error(error instanceof Error ? error.message : 'خطا در تولید تصویر');
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    // Streaming text generation
     let assistantContent = '';
 
     try {
@@ -144,12 +197,19 @@ const ChatWidget = () => {
     }
   };
 
-  const quickPrompts = [
-    'یک پست اینستاگرام جذاب بنویس',
-    'ایده برای عنوان مقاله',
-    'CTA قوی برای لندینگ پیج',
-    'ایمیل پیگیری مشتری',
-  ];
+  const quickPrompts = contentType === 'image' 
+    ? [
+        'غروب آفتاب روی کوهستان',
+        'شهر آینده با آسمان‌خراش',
+        'جنگل جادویی با نور ماه',
+        'اقیانوس آرام با موج‌های طلایی',
+      ]
+    : [
+        'یک پست اینستاگرام جذاب بنویس',
+        'ایده برای عنوان مقاله',
+        'CTA قوی برای لندینگ پیج',
+        'ایمیل پیگیری مشتری',
+      ];
 
   return (
     <>
@@ -175,18 +235,20 @@ const ChatWidget = () => {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 left-6 z-50 w-[400px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-100px)] bg-background/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-6 left-6 z-50 w-[420px] max-w-[calc(100vw-48px)] h-[650px] max-h-[calc(100vh-100px)] bg-background/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-amber-500 to-orange-600 p-4 text-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-                    <Sparkles className="w-5 h-5" />
+                    {contentType === 'image' ? <Image className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
                   </div>
                   <div>
                     <h3 className="font-bold">دستیار هوش مصنوعی</h3>
-                    <p className="text-xs text-white/80">تولید محتوای حرفه‌ای</p>
+                    <p className="text-xs text-white/80">
+                      {contentType === 'image' ? 'تولید تصویر با AI' : 'تولید محتوای حرفه‌ای'}
+                    </p>
                   </div>
                 </div>
                 <button
@@ -198,7 +260,7 @@ const ChatWidget = () => {
               </div>
 
               {/* Content Type Selector */}
-              <div className="flex gap-1 mt-3 overflow-x-auto pb-1">
+              <div className="flex gap-1 mt-3 overflow-x-auto pb-1 scrollbar-hide">
                 {contentTypes.map((type) => (
                   <button
                     key={type.id}
@@ -221,11 +283,20 @@ const ChatWidget = () => {
               {messages.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center p-4">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-600/20 flex items-center justify-center mb-4">
-                    <MessageCircle className="w-8 h-8 text-amber-500" />
+                    {contentType === 'image' ? (
+                      <Image className="w-8 h-8 text-amber-500" />
+                    ) : (
+                      <MessageCircle className="w-8 h-8 text-amber-500" />
+                    )}
                   </div>
-                  <h4 className="font-semibold text-foreground mb-2">چطور می‌تونم کمکتون کنم؟</h4>
+                  <h4 className="font-semibold text-foreground mb-2">
+                    {contentType === 'image' ? 'چه تصویری بسازم؟' : 'چطور می‌تونم کمکتون کنم؟'}
+                  </h4>
                   <p className="text-sm text-muted-foreground mb-4">
-                    محتوای {contentTypes.find(t => t.id === contentType)?.description} تولید کنید
+                    {contentType === 'image' 
+                      ? 'توضیح تصویر مورد نظرتان را بنویسید'
+                      : `محتوای ${contentTypes.find(t => t.id === contentType)?.description} تولید کنید`
+                    }
                   </p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {quickPrompts.map((prompt, i) => (
@@ -255,7 +326,26 @@ const ChatWidget = () => {
                       }`}
                     >
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
-                      {message.role === 'assistant' && message.content && (
+                      
+                      {/* Display generated image */}
+                      {message.imageUrl && (
+                        <div className="mt-3">
+                          <img 
+                            src={message.imageUrl} 
+                            alt="Generated image" 
+                            className="rounded-lg max-w-full shadow-lg"
+                          />
+                          <button
+                            onClick={() => downloadImage(message.imageUrl!)}
+                            className="mt-2 flex items-center gap-1 text-xs text-amber-600 hover:text-amber-700 transition-colors"
+                          >
+                            <Download className="w-3 h-3" />
+                            دانلود تصویر
+                          </button>
+                        </div>
+                      )}
+                      
+                      {message.role === 'assistant' && message.content && !message.imageUrl && (
                         <button
                           onClick={() => copyToClipboard(message.content, index)}
                           className="mt-2 flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
@@ -277,14 +367,17 @@ const ChatWidget = () => {
                   </motion.div>
                 ))
               )}
-              {isLoading && messages[messages.length - 1]?.role === 'user' && (
+              {isLoading && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3">
+                  <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-2">
                     <Loader2 className="w-5 h-5 animate-spin text-amber-500" />
+                    <span className="text-sm text-muted-foreground">
+                      {contentType === 'image' ? 'در حال تولید تصویر...' : 'در حال تایپ...'}
+                    </span>
                   </div>
                 </motion.div>
               )}
@@ -299,7 +392,7 @@ const ChatWidget = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder="پیام خود را بنویسید..."
+                  placeholder={contentType === 'image' ? 'توضیح تصویر...' : 'پیام خود را بنویسید...'}
                   className="flex-1 resize-none bg-muted rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/50 max-h-32"
                   rows={1}
                   disabled={isLoading}
@@ -311,6 +404,8 @@ const ChatWidget = () => {
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : contentType === 'image' ? (
+                    <Image className="w-5 h-5" />
                   ) : (
                     <Send className="w-5 h-5" />
                   )}
