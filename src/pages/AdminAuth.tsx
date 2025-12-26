@@ -31,12 +31,12 @@ const AdminAuth = () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         // Check if user is admin
-        const { data: roleData } = await supabase
+        const { data: roleData } = await (supabase as any)
           .from("user_roles")
           .select("role")
           .eq("user_id", session.user.id)
           .eq("role", "admin")
-          .single();
+          .maybeSingle();
 
         if (roleData) {
           navigate("/admin");
@@ -100,7 +100,7 @@ const AdminAuth = () => {
 
       if (authData.user) {
         // Check admin role
-        const { data: roleData, error: roleError } = await supabase
+        const { data: roleData, error: roleError } = await (supabase as any)
           .from("user_roles")
           .select("role")
           .eq("user_id", authData.user.id)

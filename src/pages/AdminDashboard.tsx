@@ -37,7 +37,7 @@ const AdminDashboard = () => {
         return;
       }
 
-      const { data: roleData } = await supabase
+      const { data: roleData } = await (supabase as any)
         .from("user_roles")
         .select("role")
         .eq("user_id", session.user.id)
