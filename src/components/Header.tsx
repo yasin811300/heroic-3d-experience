@@ -10,11 +10,11 @@ const Header = () => {
   const isHomePage = location.pathname === "/";
 
   const navItems = [
-    { label: "خانه", href: isHomePage ? "#" : "/" },
-    { label: "خدمات", href: isHomePage ? "#services" : "/#services" },
+    { label: "خانه", href: "/" },
+    { label: "خدمات", href: "/services" },
     { label: "نمونه‌کار", href: "/portfolio" },
-    { label: "درباره ما", href: isHomePage ? "#about" : "/#about" },
-    { label: "تماس", href: isHomePage ? "#contact" : "/#contact" },
+    { label: "درباره ما", href: "/about" },
+    { label: "تماس", href: "/contact" },
   ];
 
   return (
