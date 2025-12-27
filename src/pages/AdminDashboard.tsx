@@ -8,9 +8,6 @@ import {
   Settings, 
   LogOut, 
   Home,
-  TrendingUp,
-  MessageSquare,
-  Image,
   Bell,
   Search,
   Menu,
@@ -19,7 +16,10 @@ import {
   Sparkles,
   Bot,
   FileEdit,
-  BookOpen
+  BookOpen,
+  ShoppingBag,
+  Image,
+  LayoutDashboard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +29,10 @@ import AIStudio from "@/components/admin/AIStudio";
 import SiteManager from "@/components/admin/SiteManager";
 import ContentEditor from "@/components/admin/ContentEditor";
 import BlogManager from "@/components/admin/BlogManager";
+import UsersManager from "@/components/admin/UsersManager";
+import OrdersManager from "@/components/admin/OrdersManager";
+import PortfolioManager from "@/components/admin/PortfolioManager";
+import DashboardStats from "@/components/admin/DashboardStats";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -81,23 +85,22 @@ const AdminDashboard = () => {
     navigate("/admin/login");
   };
 
-  const stats = [
-    { label: "کاربران", value: "۱,۲۳۴", change: "+۱۲%", icon: Users, color: "from-blue-500 to-blue-600" },
-    { label: "درخواست‌ها", value: "۵۶", change: "+۸%", icon: FileText, color: "from-green-500 to-green-600" },
-    { label: "بازدید", value: "۴۵,۶۷۸", change: "+۲۴%", icon: TrendingUp, color: "from-purple-500 to-purple-600" },
-    { label: "پیام‌ها", value: "۸۹", change: "+۱۵%", icon: MessageSquare, color: "from-orange-500 to-orange-600" },
-  ];
-
   const menuItems = [
-    { icon: Home, label: "داشبورد", id: "dashboard" },
+    { icon: LayoutDashboard, label: "داشبورد", id: "dashboard" },
+    { icon: Users, label: "مدیریت کاربران", id: "users" },
+    { icon: ShoppingBag, label: "مدیریت سفارشات", id: "orders" },
     { icon: BookOpen, label: "مدیریت بلاگ", id: "blog-manager" },
+    { icon: Image, label: "نمونه‌کارها", id: "portfolio" },
     { icon: Sparkles, label: "استودیو AI", id: "ai-studio" },
     { icon: Bot, label: "مدیریت سایت", id: "site-manager" },
     { icon: FileEdit, label: "ویرایش محتوا", id: "content-editor" },
-    { icon: Users, label: "کاربران", id: "users" },
-    { icon: Image, label: "گالری", id: "gallery" },
     { icon: Settings, label: "تنظیمات", id: "settings" },
   ];
+
+  const getSectionTitle = () => {
+    const item = menuItems.find(m => m.id === activeSection);
+    return item?.label || "داشبورد";
+  };
 
   if (loading) {
     return (
@@ -132,7 +135,9 @@ const AdminDashboard = () => {
                 animate={{ opacity: 1 }}
                 className="flex items-center gap-3"
               >
-                <img src="/logo.webp" alt="آژمان" className="w-10 h-10" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <LayoutDashboard className="w-5 h-5 text-primary-foreground" />
+                </div>
                 <span className="font-bold text-lg">پنل ادمین</span>
               </motion.div>
             )}
@@ -144,7 +149,7 @@ const AdminDashboard = () => {
             </button>
           </div>
 
-          <nav className="p-4 space-y-2">
+          <nav className="p-4 space-y-1 max-h-[calc(100vh-180px)] overflow-y-auto">
             {menuItems.map((item, index) => (
               <motion.button
                 key={index}
@@ -152,7 +157,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveSection(item.id)}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
                   activeSection === item.id
-                    ? "bg-primary text-primary-foreground"
+                    ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                     : "hover:bg-secondary text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -161,6 +166,7 @@ const AdminDashboard = () => {
                   <motion.span
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
+                    className="text-sm"
                   >
                     {item.label}
                   </motion.span>
@@ -169,13 +175,13 @@ const AdminDashboard = () => {
             ))}
           </nav>
 
-          <div className="absolute bottom-0 right-0 left-0 p-4 border-t border-border">
+          <div className="absolute bottom-0 right-0 left-0 p-4 border-t border-border bg-card">
             <button
               onClick={handleLogout}
               className="w-full flex items-center gap-3 p-3 rounded-xl text-destructive hover:bg-destructive/10 transition-colors"
             >
               <LogOut className="w-5 h-5 flex-shrink-0" />
-              {sidebarOpen && <span>خروج</span>}
+              {sidebarOpen && <span className="text-sm">خروج از حساب</span>}
             </button>
           </div>
         </motion.aside>
@@ -189,9 +195,7 @@ const AdminDashboard = () => {
           <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <h1 className="text-xl font-bold">داشبورد</h1>
-                <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-                <span className="text-muted-foreground">خلاصه وضعیت</span>
+                <h1 className="text-xl font-bold">{getSectionTitle()}</h1>
               </div>
 
               <div className="flex items-center gap-4">
@@ -214,12 +218,10 @@ const AdminDashboard = () => {
                       {user?.email?.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  {sidebarOpen && (
-                    <div className="hidden lg:block">
-                      <p className="text-sm font-medium">{user?.email}</p>
-                      <p className="text-xs text-muted-foreground">ادمین</p>
-                    </div>
-                  )}
+                  <div className="hidden lg:block">
+                    <p className="text-sm font-medium">{user?.email}</p>
+                    <p className="text-xs text-muted-foreground">مدیر سیستم</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -227,79 +229,21 @@ const AdminDashboard = () => {
 
           {/* Content */}
           <div className="p-6">
-            {activeSection === "dashboard" && (
-              <>
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {stats.map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="glass rounded-2xl p-6 relative overflow-hidden"
-                    >
-                      <div className={`absolute top-0 left-0 w-24 h-24 bg-gradient-to-br ${stat.color} opacity-10 rounded-full -translate-x-8 -translate-y-8`} />
-                      
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <p className="text-muted-foreground text-sm mb-1">{stat.label}</p>
-                          <p className="text-3xl font-bold">{stat.value}</p>
-                          <p className="text-green-500 text-sm mt-2">{stat.change}</p>
-                        </div>
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                          <stat.icon className="w-6 h-6 text-white" />
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Recent Activity */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className="glass rounded-2xl p-6"
-                >
-                  <h2 className="text-lg font-bold mb-6">فعالیت‌های اخیر</h2>
-                  
-                  <div className="space-y-4">
-                    {[
-                      { title: "کاربر جدید ثبت‌نام کرد", time: "۵ دقیقه پیش", type: "user" },
-                      { title: "درخواست طراحی سایت ثبت شد", time: "۱۵ دقیقه پیش", type: "request" },
-                      { title: "پیام جدید از مشتری", time: "۱ ساعت پیش", type: "message" },
-                      { title: "پروژه جدید به گالری اضافه شد", time: "۲ ساعت پیش", type: "gallery" },
-                    ].map((activity, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.5 + index * 0.1 }}
-                        className="flex items-center gap-4 p-4 rounded-xl hover:bg-secondary/50 transition-colors"
-                      >
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                          {activity.type === "user" && <Users className="w-5 h-5 text-primary" />}
-                          {activity.type === "request" && <FileText className="w-5 h-5 text-green-500" />}
-                          {activity.type === "message" && <MessageSquare className="w-5 h-5 text-blue-500" />}
-                          {activity.type === "gallery" && <Image className="w-5 h-5 text-purple-500" />}
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-medium">{activity.title}</p>
-                          <p className="text-sm text-muted-foreground">{activity.time}</p>
-                        </div>
-                        <ChevronLeft className="w-5 h-5 text-muted-foreground" />
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              </>
-            )}
-
+            {activeSection === "dashboard" && <DashboardStats />}
+            {activeSection === "users" && <UsersManager />}
+            {activeSection === "orders" && <OrdersManager />}
             {activeSection === "blog-manager" && <BlogManager />}
+            {activeSection === "portfolio" && <PortfolioManager />}
             {activeSection === "ai-studio" && <AIStudio />}
             {activeSection === "site-manager" && <SiteManager />}
             {activeSection === "content-editor" && <ContentEditor />}
+            {activeSection === "settings" && (
+              <div className="glass rounded-2xl p-8 text-center">
+                <Settings className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="text-xl font-bold mb-2">تنظیمات</h3>
+                <p className="text-muted-foreground">بخش تنظیمات در حال توسعه است...</p>
+              </div>
+            )}
           </div>
         </main>
       </div>
