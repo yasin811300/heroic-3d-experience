@@ -104,6 +104,98 @@ export type Database = {
         }
         Relationships: []
       }
+      club_businesses: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          discount_amount: number | null
+          discount_percent: number | null
+          id: string
+          is_active: boolean | null
+          logo_url: string | null
+          name: string
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          discount_amount?: number | null
+          discount_percent?: number | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          discount_amount?: number | null
+          discount_percent?: number | null
+          id?: string
+          is_active?: boolean | null
+          logo_url?: string | null
+          name?: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      club_discount_usage: {
+        Row: {
+          business_id: string | null
+          id: string
+          used_at: string
+          user_id: string | null
+        }
+        Insert: {
+          business_id?: string | null
+          id?: string
+          used_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          business_id?: string | null
+          id?: string
+          used_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "club_discount_usage_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "club_businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      club_stats: {
+        Row: {
+          id: string
+          key: string
+          updated_at: string
+          value: number | null
+        }
+        Insert: {
+          id?: string
+          key: string
+          updated_at?: string
+          value?: number | null
+        }
+        Update: {
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: number | null
+        }
+        Relationships: []
+      }
       editable_content: {
         Row: {
           content: string | null
