@@ -50,7 +50,9 @@ function callGeminiAPI($prompt, $model = null) {
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    // Enable SSL verification for security (prevents MITM attacks)
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     
     $response = curl_exec($ch);
