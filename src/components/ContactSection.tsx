@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const contactInfo = [
   { icon: Phone, label: "تلفن", value: "۰۲۱-۱۲۳۴۵۶۷۸", href: "tel:02112345678" },
@@ -17,11 +19,44 @@ const ContactSection = () => {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+    
+    if (!formData.name || !formData.phone || !formData.message) {
+      toast.error("لطفاً فیلدهای ضروری را پر کنید");
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/telegram-bot`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        toast.success("پیام شما با موفقیت ارسال شد!");
+        setFormData({ name: "", phone: "", subject: "", message: "" });
+      } else {
+        throw new Error("خطا در ارسال پیام");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("خطا در ارسال پیام. لطفاً دوباره تلاش کنید.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -182,9 +217,14 @@ const ContactSection = () => {
                 />
               </div>
 
-              <Button variant="gradient-gold" size="lg" className="w-full gap-2">
+              <Button 
+                variant="gradient-gold" 
+                size="lg" 
+                className="w-full gap-2"
+                disabled={isSubmitting}
+              >
                 <Send className="w-5 h-5" />
-                ارسال پیام
+                {isSubmitting ? "در حال ارسال..." : "ارسال پیام"}
               </Button>
             </form>
           </motion.div>

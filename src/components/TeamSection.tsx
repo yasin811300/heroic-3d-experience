@@ -1,12 +1,14 @@
 import { motion } from "framer-motion";
-import { Linkedin, Instagram, Twitter } from "lucide-react";
+import { Linkedin, Instagram, Twitter, Send } from "lucide-react";
 
 const team = [
   {
-    name: "علی احمدی",
+    name: "یاسین سالارناظم",
     role: "مدیرعامل و بنیان‌گذار",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-    bio: "۱۰ سال تجربه در دیجیتال مارکتینگ",
+    image: "/yasin.jpg",
+    bio: "بنیان‌گذار آژانس ازما با تجربه در دیجیتال مارکتینگ",
+    telegram: "https://t.me/yasin_salarnazem",
+    instagram: "https://instagram.com/yasin_salarnazem",
   },
   {
     name: "سارا محمدی",
@@ -95,7 +97,29 @@ const TeamSection = () => {
 
               {/* Social Links */}
               <div className="flex justify-center gap-3">
-                {[Linkedin, Instagram, Twitter].map((Icon, i) => (
+                {member.telegram && (
+                  <motion.a
+                    href={member.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Send className="w-4 h-4" />
+                  </motion.a>
+                )}
+                {member.instagram && (
+                  <motion.a
+                    href={member.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Instagram className="w-4 h-4" />
+                  </motion.a>
+                )}
+                {!member.telegram && !member.instagram && [Linkedin, Instagram, Twitter].map((Icon, i) => (
                   <motion.a
                     key={i}
                     href="#"
