@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Phone, MapPin, Instagram, Send, User } from "lucide-react";
+import { Phone, MapPin, Instagram, Send, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -11,6 +11,7 @@ const Footer = () => {
     { label: "نمونه‌کارها", href: "/portfolio" },
     { label: "تماس با ما", href: "/contact" },
     { label: "ورود / ثبت‌نام", href: "/auth" },
+    { label: "پنل مدیریت", href: "/admin/login", icon: Shield },
   ];
 
   return (
