@@ -15,22 +15,40 @@ require_once 'telegram-config.php';
 $content = file_get_contents("php://input");
 $update = json_decode($content, true);
 
-// لاگ کردن آپدیت (برای دیباگ)
-file_put_contents('bot_log.txt', date('Y-m-d H:i:s') . " - " . $content . "\n", FILE_APPEND);
+// لاگ کردن آپدیت (برای دیباگ - بدون اطلاعات حساس)
+$log_content = $content ? substr($content, 0, 500) : 'empty';
+file_put_contents('bot_log.txt', date('Y-m-d H:i:s') . " - request received\n", FILE_APPEND);
 
 if (!$update) exit;
 
-// استخراج اطلاعات
+// استخراج chat_id زود هنگام برای بررسی امنیتی
 $message = $update['message'] ?? null;
 $callback_query = $update['callback_query'] ?? null;
 $chat_id = null;
+
+// استخراج سریع chat_id برای بررسی ادمین قبل از پردازش کامل
+if ($message) {
+    $chat_id = $message['chat']['id'] ?? null;
+} elseif ($callback_query) {
+    $chat_id = $callback_query['message']['chat']['id'] ?? null;
+}
+
+// بررسی دسترسی ادمین قبل از هرگونه پردازش
+if (!$chat_id || !isAdmin($chat_id)) {
+    // فقط پیام خطا برای درخواست‌های غیرمجاز - بدون پردازش بیشتر
+    if ($chat_id) {
+        sendMessage($chat_id, "⛔ دسترسی غیرمجاز.");
+    }
+    exit;
+}
+
+// حالا که ادمین تأیید شد، بقیه اطلاعات را استخراج می‌کنیم
 $user_id = null;
 $username = null;
 $text = '';
 
 // پردازش پیام عادی
 if ($message) {
-    $chat_id = $message['chat']['id'];
     $user_id = $message['from']['id'];
     $username = $message['from']['first_name'] ?? 'کاربر';
     $text = $message['text'] ?? '';
@@ -41,7 +59,6 @@ if ($message) {
 
 // پردازش Callback Query (دکمه‌های Inline)
 if ($callback_query) {
-    $chat_id = $callback_query['message']['chat']['id'];
     $user_id = $callback_query['from']['id'];
     $username = $callback_query['from']['first_name'] ?? 'کاربر';
     $text = $callback_query['data'];
@@ -50,12 +67,6 @@ if ($callback_query) {
     // پاسخ به Callback
     $url = TELEGRAM_API_URL . '/answerCallbackQuery';
     makeRequest($url, ['callback_query_id' => $callback_query['id']]);
-}
-
-// بررسی دسترسی ادمین
-if (!isAdmin($chat_id)) {
-    sendMessage($chat_id, "⛔ شما دسترسی به این ربات را ندارید.\n\nفقط ادمین سایت می‌تواند از ربات استفاده کند.");
-    exit;
 }
 
 // ====================

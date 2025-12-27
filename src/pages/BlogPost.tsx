@@ -9,8 +9,9 @@ import {
   Eye, Share2, BookOpen, Facebook, Twitter, Linkedin
 } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import DOMPurify from "dompurify";
 
 interface BlogPost {
   id: string;
@@ -204,7 +205,7 @@ const BlogPost = () => {
                 </div>
               </div>
 
-              {/* Content */}
+              {/* Content - Sanitized to prevent XSS */}
               <div 
                 className="prose prose-invert prose-lg max-w-none mb-8
                   prose-headings:text-foreground prose-headings:font-bold
@@ -213,7 +214,15 @@ const BlogPost = () => {
                   prose-strong:text-foreground
                   prose-ul:text-muted-foreground prose-ol:text-muted-foreground
                   prose-blockquote:border-primary prose-blockquote:text-muted-foreground"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(post.content, {
+                    ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr', 
+                      'ul', 'ol', 'li', 'a', 'strong', 'b', 'em', 'i', 'u', 
+                      'blockquote', 'pre', 'code', 'img', 'table', 'thead', 'tbody', 
+                      'tr', 'th', 'td', 'span', 'div'],
+                    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel']
+                  })
+                }}
               />
 
               {/* Tags */}
