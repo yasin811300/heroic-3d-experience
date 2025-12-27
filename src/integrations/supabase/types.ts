@@ -14,6 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_history: {
+        Row: {
+          action_type: string
+          created_at: string
+          id: string
+          image_url: string | null
+          prompt: string | null
+          result: string | null
+          user_id: string
+          video_url: string | null
+        }
+        Insert: {
+          action_type: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          prompt?: string | null
+          result?: string | null
+          user_id: string
+          video_url?: string | null
+        }
+        Update: {
+          action_type?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          prompt?: string | null
+          result?: string | null
+          user_id?: string
+          video_url?: string | null
+        }
+        Relationships: []
+      }
+      editable_content: {
+        Row: {
+          content: string | null
+          content_type: string
+          created_at: string
+          id: string
+          image_url: string | null
+          page_name: string
+          section_key: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          page_name: string
+          section_key: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          content_type?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          page_name?: string
+          section_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: string
+          items: Json | null
+          status: string | null
+          total_amount: number | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          items?: Json | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          items?: Json | null
+          status?: string | null
+          total_amount?: number | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      portfolio_items: {
+        Row: {
+          category: string | null
+          client_name: string | null
+          created_at: string
+          description: string | null
+          display_order: number | null
+          id: string
+          image_url: string | null
+          is_active: boolean | null
+          project_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          client_name?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          project_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          client_name?: string | null
+          created_at?: string
+          description?: string | null
+          display_order?: number | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean | null
+          project_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -41,6 +179,30 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          created_at: string
+          id: string
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          key?: string
+          updated_at?: string
+          value?: string | null
         }
         Relationships: []
       }

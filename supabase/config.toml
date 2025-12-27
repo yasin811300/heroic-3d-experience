@@ -33,3 +33,9 @@ enable_confirmations = false
 
 [functions.ai-content-assistant]
 verify_jwt = false
+
+[functions.ai-studio]
+verify_jwt = false
+
+[functions.send-sms]
+verify_jwt = false
