@@ -33,6 +33,8 @@ const Header = () => {
     { label: "خانه", href: "/" },
     { label: "خدمات", href: "/services" },
     { label: "نمونه‌کار", href: "/portfolio" },
+    { label: "اخبار AI", href: "/ai-news" },
+    { label: "شرکا", href: "/partners" },
     { label: "درباره ما", href: "/about" },
     { label: "تماس", href: "/contact" },
   ];

@@ -16,7 +16,9 @@ import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import MusicPlayer from "@/components/MusicPlayer";
+import CertificationsSection from "@/components/CertificationsSection";
 import { useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -41,40 +43,86 @@ const Index = () => {
   }, []);
 
   return (
-    <div ref={mainRef} className="min-h-screen bg-background overflow-x-hidden">
-      {/* Noise Overlay */}
-      <div className="noise-overlay" />
+    <>
+      <Helmet>
+        <title>آژانس دیجیتال مارکتینگ ازما | طراحی سایت، سئو و مدیریت شبکه‌های اجتماعی در همدان</title>
+        <meta name="description" content="آژانس ازما، تخصصی‌ترین آژانس دیجیتال مارکتینگ غرب کشور. طراحی سایت، سئو، مدیریت اینستاگرام، طراحی لوگو و برندینگ با استانداردهای جهانی. +۲۵۰ پروژه موفق" />
+        <meta name="keywords" content="آژانس دیجیتال مارکتینگ, طراحی سایت همدان, سئو, مدیریت اینستاگرام, طراحی لوگو, برندینگ, دیجیتال مارکتینگ ایران" />
+        <link rel="canonical" href="https://azmamarkteng.ir" />
+        <meta property="og:title" content="آژانس دیجیتال مارکتینگ ازما | طلایی کردن برندها" />
+        <meta property="og:description" content="تخصصی‌ترین آژانس دیجیتال مارکتینگ غرب کشور با +۲۵۰ پروژه موفق" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://azmamarkteng.ir" />
+        <meta property="og:image" content="https://azmamarkteng.ir/logo.webp" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="آژانس ازما | دیجیتال مارکتینگ حرفه‌ای" />
+        <meta name="twitter:description" content="طراحی سایت، سئو و مدیریت شبکه‌های اجتماعی با استانداردهای جهانی" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "DigitalMarketingAgency",
+            "name": "آژانس دیجیتال مارکتینگ ازما",
+            "url": "https://azmamarkteng.ir",
+            "logo": "https://azmamarkteng.ir/logo.webp",
+            "description": "تخصصی‌ترین آژانس دیجیتال مارکتینگ غرب کشور",
+            "telephone": "09914601322",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "همدان",
+              "addressCountry": "IR"
+            },
+            "sameAs": [
+              "https://instagram.com/azmamarkteng"
+            ],
+            "founder": {
+              "@type": "Person",
+              "name": "یاسین سالارناظم"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "250"
+            }
+          })}
+        </script>
+      </Helmet>
       
-      {/* Music Player */}
-      <MusicPlayer />
-      
-      {/* Header */}
-      <Header />
+      <div ref={mainRef} className="min-h-screen bg-background overflow-x-hidden">
+        {/* Noise Overlay */}
+        <div className="noise-overlay" />
+        
+        {/* Music Player */}
+        <MusicPlayer />
+        
+        {/* Header */}
+        <Header />
 
-      {/* Main Content */}
-      <main>
-        <HeroSection />
-        <ClientsSection />
-        <ServicesSection />
-        <StatsSection />
-        <PortfolioSection />
-        <ProcessSection />
-        <PricingSection />
-        <TechSection />
-        <TeamSection />
-        <TestimonialsSection />
-        <BlogSection />
-        <FAQSection />
-        <ContactSection />
-        <CTASection />
-      </main>
+        {/* Main Content */}
+        <main>
+          <HeroSection />
+          <ClientsSection />
+          <ServicesSection />
+          <StatsSection />
+          <CertificationsSection />
+          <PortfolioSection />
+          <ProcessSection />
+          <PricingSection />
+          <TechSection />
+          <TeamSection />
+          <TestimonialsSection />
+          <BlogSection />
+          <FAQSection />
+          <ContactSection />
+          <CTASection />
+        </main>
 
-      {/* Footer */}
-      <Footer />
+        {/* Footer */}
+        <Footer />
 
-      {/* Chat Widget */}
-      <ChatWidget />
-    </div>
+        {/* Chat Widget */}
+        <ChatWidget />
+      </div>
+    </>
   );
 };
 

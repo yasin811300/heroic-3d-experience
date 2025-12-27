@@ -73,12 +73,41 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground font-vazir antialiased;
     direction: rtl;
     font-family: 'Vazirmatn', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mobile Optimization - Prevent zoom on inputs */
+  @media (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+    
+    /* Better touch targets */
+    button, a {
+      min-height: 44px;
+    }
+    
+    /* Reduce animations on mobile for performance */
+    .orb {
+      display: none;
+    }
+    
+    /* Better text sizing for mobile */
+    h1 {
+      @apply text-3xl;
+    }
+    
+    h2 {
+      @apply text-2xl;
+    }
   }
 
   /* Custom Scrollbar */
