@@ -18,7 +18,8 @@ import {
   ChevronLeft,
   Sparkles,
   Bot,
-  FileEdit
+  FileEdit,
+  BookOpen
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ import { toast } from "sonner";
 import AIStudio from "@/components/admin/AIStudio";
 import SiteManager from "@/components/admin/SiteManager";
 import ContentEditor from "@/components/admin/ContentEditor";
+import BlogManager from "@/components/admin/BlogManager";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -88,6 +90,7 @@ const AdminDashboard = () => {
 
   const menuItems = [
     { icon: Home, label: "داشبورد", id: "dashboard" },
+    { icon: BookOpen, label: "مدیریت بلاگ", id: "blog-manager" },
     { icon: Sparkles, label: "استودیو AI", id: "ai-studio" },
     { icon: Bot, label: "مدیریت سایت", id: "site-manager" },
     { icon: FileEdit, label: "ویرایش محتوا", id: "content-editor" },
@@ -293,6 +296,7 @@ const AdminDashboard = () => {
               </>
             )}
 
+            {activeSection === "blog-manager" && <BlogManager />}
             {activeSection === "ai-studio" && <AIStudio />}
             {activeSection === "site-manager" && <SiteManager />}
             {activeSection === "content-editor" && <ContentEditor />}
