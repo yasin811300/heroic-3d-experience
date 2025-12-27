@@ -18,6 +18,7 @@ import AINews from "./pages/AINews";
 import Partners from "./pages/Partners";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import VoiceAI from "./pages/VoiceAI";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/admin/login" element={<AdminAuth />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/dashboard" element={<UserDashboard />} />
+            <Route path="/voice-ai" element={<VoiceAI />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
