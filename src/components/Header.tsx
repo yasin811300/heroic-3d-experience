@@ -48,12 +48,11 @@ const Header = () => {
             transition={{ duration: 0.5 }}
           >
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center shadow-lg">
-                <span className="text-primary-foreground font-black text-lg">آ</span>
-              </div>
-              <span className="text-xl font-bold text-foreground hidden md:block">
-                آژانس ازما
-              </span>
+              <img 
+                src="/logo.webp" 
+                alt="آژانس ازما" 
+                className="h-12 w-auto object-contain"
+              />
             </Link>
           </motion.div>
 
@@ -143,9 +142,11 @@ const Header = () => {
       >
         <div className="p-6">
           <div className="flex justify-between items-center mb-10">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-gold-light flex items-center justify-center">
-              <span className="text-primary-foreground font-black text-lg">آ</span>
-            </div>
+            <img 
+              src="/logo.webp" 
+              alt="آژانس ازما" 
+              className="h-10 w-auto object-contain"
+            />
             <button onClick={() => setIsMenuOpen(false)} className="p-2">
               <X className="w-6 h-6 text-foreground" />
             </button>
