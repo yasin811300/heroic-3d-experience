@@ -34,6 +34,8 @@ const Header = () => {
     { label: "خدمات", href: "/services" },
     { label: "نمونه‌کار", href: "/portfolio" },
     { label: "بلاگ", href: "/blog" },
+    { label: "اخبار AI", href: "/ai-news" },
+    { label: "شرکا", href: "/partners" },
     { label: "درباره ما", href: "/about" },
     { label: "تماس", href: "/contact" },
   ];
