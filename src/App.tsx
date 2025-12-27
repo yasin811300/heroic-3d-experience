@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import AdminAuth from "./pages/AdminAuth";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminSetup from "./pages/AdminSetup";
 import UserDashboard from "./pages/UserDashboard";
 import NotFound from "./pages/NotFound";
 import AINews from "./pages/AINews";
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin/login" element={<AdminAuth />} />
+            <Route path="/admin/setup" element={<AdminSetup />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/dashboard" element={<UserDashboard />} />
             <Route path="*" element={<NotFound />} />
