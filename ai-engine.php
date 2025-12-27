@@ -1,5 +1,8 @@
 <?php
 // موتور هوشمند تولید محتوا و تصویر - اختصاصی ازما
+define('AZMA_ACCESS', true);
+require_once 'config.php';
+
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 session_start();
@@ -14,48 +17,45 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 require 'db.php';
 
- $input = json_decode(file_get_contents('php://input'), true);
- $action = $input['action'] ?? '';
+$input = json_decode(file_get_contents('php://input'), true);
+$action = $input['action'] ?? '';
 
 // --- 1. تولید متن (با Gemini) ---
 if ($action === 'generate_text') {
-    $apiKey = "AIzaSyCUXMwx5VmStANuTs-faJa2emoRoBV8fdc"; // کلید شما
-    $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" . $apiKey;
+    $prompt = isset($input['prompt']) ? trim($input['prompt']) : '';
+    $type = isset($input['type']) ? $input['type'] : 'blog';
     
-    $prompt = $input['prompt'];
-    $type = $input['type']; // blog, caption, ad
+    if (empty($prompt) || strlen($prompt) > 1000) {
+        echo json_encode(['error' => 'پرامپت نامعتبر است']);
+        exit();
+    }
     
     $systemPrompt = "تو یک نویسنده خلاق و متخصص مارکتینگ هستی. زبان: فارسی.";
     if($type == 'blog') $systemPrompt .= " یک مقاله جامع و سئو شده با تگ‌های HTML (h2, p, ul) بنویس.";
     if($type == 'caption') $systemPrompt .= " یک کپشن اینستاگرام جذاب با ایموجی و هشتگ بنویس.";
     if($type == 'ad') $systemPrompt .= " یک متن تبلیغاتی کوتاه و کوبنده برای جذب مشتری بنویس.";
 
-    $data = ["contents" => [["parts" => [["text" => $systemPrompt . "\n\nموضوع: " . $prompt]]]]];
-
-    $ch = curl_init($apiUrl);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    $result = callGeminiAPI($systemPrompt . "\n\nموضوع: " . $prompt);
     
-    $response = curl_exec($ch);
-    curl_close($ch);
-    
-    $result = json_decode($response, true);
-    if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
-        echo json_encode(['result' => $result['candidates'][0]['content']['parts'][0]['text']]);
+    if (isset($result['error'])) {
+        echo json_encode(['error' => 'خطا در تولید متن: ' . $result['error']]);
     } else {
-        echo json_encode(['error' => 'خطا در تولید متن']);
+        echo json_encode(['result' => $result['text']]);
     }
     exit();
 }
 
-// --- 2. تولید تصویر (با Pollinations AI - رایگان و باکیفیت) ---
+// --- 2. تولید تصویر (با Pollinations AI) ---
 if ($action === 'generate_image') {
-    $prompt = urlencode($input['prompt']);
-    // افزودن کلمات کلیدی برای کیفیت بهتر
-    $enhancedPrompt = $prompt . ", hyper realistic, 8k, highly detailed, cinematic lighting, professional photography";
+    $prompt = isset($input['prompt']) ? trim($input['prompt']) : '';
+    
+    if (empty($prompt) || strlen($prompt) > 500) {
+        echo json_encode(['error' => 'پرامپت تصویر نامعتبر است']);
+        exit();
+    }
+    
+    $encodedPrompt = urlencode($prompt);
+    $enhancedPrompt = $encodedPrompt . ", hyper realistic, 8k, highly detailed, cinematic lighting, professional photography";
     $imageUrl = "https://image.pollinations.ai/prompt/" . $enhancedPrompt . "?width=1024&height=1024&seed=" . rand(1, 9999);
     
     echo json_encode(['image_url' => $imageUrl]);
@@ -64,15 +64,27 @@ if ($action === 'generate_image') {
 
 // --- 3. ذخیره تصویر در هاست ---
 if ($action === 'save_image') {
-    $url = $input['url'];
+    $url = isset($input['url']) ? filter_var($input['url'], FILTER_VALIDATE_URL) : '';
+    
+    if (!$url) {
+        echo json_encode(['error' => 'آدرس تصویر نامعتبر است']);
+        exit();
+    }
+    
     $filename = 'ai-gen-' . time() . '.jpg';
     $path = 'uploads/' . $filename;
     
-    if (!is_dir('uploads')) mkdir('uploads', 0777, true);
+    if (!is_dir('uploads')) mkdir('uploads', 0755, true);
     
-    $imageContent = file_get_contents($url);
+    $imageContent = @file_get_contents($url);
     if ($imageContent && file_put_contents($path, $imageContent)) {
-        $conn->query("INSERT INTO gallery (image_path, prompt) VALUES ('$path', 'AI Generated')");
+        // استفاده از prepared statement
+        $stmt = $conn->prepare("INSERT INTO gallery (image_path, prompt) VALUES (?, ?)");
+        $promptText = 'AI Generated';
+        $stmt->bind_param("ss", $path, $promptText);
+        $stmt->execute();
+        $stmt->close();
+        
         echo json_encode(['success' => true, 'path' => $path]);
     } else {
         echo json_encode(['error' => 'خطا در ذخیره تصویر']);
