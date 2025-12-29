@@ -17,6 +17,7 @@ import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import MusicPlayer from "@/components/MusicPlayer";
 import CertificationsSection from "@/components/CertificationsSection";
+import AIImageMerge from "@/components/AIImageMerge";
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -102,6 +103,7 @@ const Index = () => {
           <HeroSection />
           <ClientsSection />
           <ServicesSection />
+          <AIImageMerge />
           <StatsSection />
           <CertificationsSection />
           <PortfolioSection />
