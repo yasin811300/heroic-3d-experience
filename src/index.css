@@ -90,23 +90,9 @@
       font-size: 16px !important;
     }
     
-    /* Better touch targets */
-    button, a {
-      min-height: 44px;
-    }
-    
     /* Reduce animations on mobile for performance */
     .orb {
       display: none;
-    }
-    
-    /* Better text sizing for mobile */
-    h1 {
-      @apply text-3xl;
-    }
-    
-    h2 {
-      @apply text-2xl;
     }
   }
 
