@@ -146,7 +146,7 @@ const Portfolio = () => {
           <div className="container">
             <motion.div 
               layout
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
             >
               <AnimatePresence mode="popLayout">
                 {filteredProjects.map((project, index) => (
@@ -157,50 +157,64 @@ const Portfolio = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
-                    whileHover={{ y: -10 }}
                     onClick={() => openLightbox(project)}
-                    className="group glass rounded-3xl overflow-hidden cursor-pointer relative"
+                    className="group break-inside-avoid cursor-pointer relative rounded-3xl overflow-hidden"
+                    style={{ perspective: "1000px" }}
                   >
-                    {/* Image */}
-                    <div className="relative h-64 overflow-hidden">
-                      <motion.img
-                        src={project.image_url}
-                        alt={project.title}
-                        className="w-full h-full object-cover"
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.6 }}
-                      />
-                      
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          whileHover={{ scale: 1 }}
-                          className="w-14 h-14 rounded-full bg-primary flex items-center justify-center"
-                        >
-                          <Eye className="w-6 h-6 text-primary-foreground" />
-                        </motion.div>
+                    <motion.div
+                      whileHover={{ rotateY: -5, rotateX: 5, scale: 1.03 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                      className="relative rounded-3xl overflow-hidden bg-background/30 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      {/* Image - original aspect ratio */}
+                      <div className="relative overflow-hidden">
+                        <motion.img
+                          src={project.image_url}
+                          alt={`${project.title} - ${project.category} | نمونه کار آژانس ازما همدان`}
+                          title={project.title}
+                          loading="lazy"
+                          decoding="async"
+                          width="600"
+                          height="400"
+                          className="w-full h-auto object-contain"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{ duration: 0.6 }}
+                        />
+                        
+                        {/* Glass overlay on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            className="w-14 h-14 rounded-full bg-primary/80 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-[0_0_30px_rgba(245,158,11,0.4)] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          >
+                            <Eye className="w-6 h-6 text-primary-foreground" />
+                          </motion.div>
+                        </div>
+
+                        {/* Category Badge - glass style */}
+                        <span className="absolute top-4 right-4 px-3 py-1.5 bg-background/40 backdrop-blur-md border border-white/15 rounded-full text-primary text-xs font-bold shadow-lg">
+                          {project.category}
+                        </span>
                       </div>
 
-                      {/* Category Badge */}
-                      <span className="absolute top-4 right-4 px-3 py-1 bg-primary/90 rounded-full text-primary-foreground text-xs font-bold">
-                        {project.category}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground">{project.client_name}</span>
-                        {/* Assuming year isn't in DB */}
+                      {/* Content with glass bottom */}
+                      <div className="p-5 bg-gradient-to-b from-background/40 to-background/60 backdrop-blur-sm border-t border-white/5">
+                        <h3 className="text-base font-bold text-foreground mb-1.5 group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
+                          {project.description}
+                        </p>
+                        {project.client_name && (
+                          <span className="text-xs text-muted-foreground/70">{project.client_name}</span>
+                        )}
                       </div>
-                    </div>
+
+                      {/* Glass reflection effect */}
+                      <div className="absolute inset-0 rounded-3xl pointer-events-none bg-gradient-to-br from-white/[0.08] via-transparent to-transparent" />
+                    </motion.div>
                   </motion.article>
                 ))}
               </AnimatePresence>
