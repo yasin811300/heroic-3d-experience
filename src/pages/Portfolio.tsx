@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { ArrowLeft, X, ChevronLeft, ChevronRight, Eye, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,159 +7,43 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
-
-import portfolioMentor from "@/assets/portfolio-mentor.jpg";
-import portfolioAiPhotoshop from "@/assets/portfolio-ai-photoshop.jpg";
-import portfolioAiContent from "@/assets/portfolio-ai-content.jpg";
-import portfolioGemini from "@/assets/portfolio-gemini.jpg";
-import portfolioVpn from "@/assets/portfolio-vpn.jpg";
-import portfolioEmail from "@/assets/portfolio-email.jpg";
-import portfolioInsurance from "@/assets/portfolio-insurance.jpg";
-import portfolioSocial from "@/assets/portfolio-social.jpg";
-import portfolioHoney from "@/assets/portfolio-honey.jpg";
-import portfolioCharacter from "@/assets/portfolio-character.jpg";
-
-const categories = [
-  { id: "all", label: "همه" },
-  { id: "logo", label: "طراحی لوگو" },
-  { id: "poster", label: "پوستر و موشن" },
-  { id: "web", label: "طراحی سایت" },
-  { id: "instagram", label: "اینستاگرام" },
-  { id: "seo", label: "سئو و گوگل مپ" },
-];
-
-const projects = [
-  {
-    id: 1,
-    title: "پشتیبانی ۲۴ ساعته منتورها",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioMentor,
-    description: "آموزش کامل و کاربردی مخصوص اینستاگرام، یوتیوب و فروشگاه‌های آنلاین بدون نیاز به هیچ پیش‌زمینه‌ای.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["طراحی ۳D حرفه‌ای", "افزایش تعامل ۴۰۰٪"],
-    technologies: ["Photoshop", "Blender", "After Effects"],
-  },
-  {
-    id: 2,
-    title: "فتوشاپ + هوش مصنوعی",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioAiPhotoshop,
-    description: "از صفر تا حرفه‌ای، مخصوص کسب‌وکارهای آنلاین و تولید محتوا.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["آموزش AI در فتوشاپ", "تولید محتوای حرفه‌ای"],
-    technologies: ["Photoshop", "AI Tools", "Content Creation"],
-  },
-  {
-    id: 3,
-    title: "آموزش تولید محتوا با گوشی",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioAiContent,
-    description: "با هوش مصنوعی عکس، فیلم، یا موزیک بسازی. یادگیری فتوشاپ بدون پیچیدگی.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["تولید محتوا با موبایل", "آموزش هوش مصنوعی"],
-    technologies: ["Mobile Editing", "AI", "Content Strategy"],
-  },
-  {
-    id: 4,
-    title: "دسترسی به هوش مصنوعی Gemini",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioGemini,
-    description: "چطور به هوش مصنوعی Google Gemini دسترسی پیدا کنیم بدون محدودیت.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["آموزش Google Gemini", "راهنمای گام به گام"],
-    technologies: ["Photoshop", "3D Design", "AI"],
-  },
-  {
-    id: 5,
-    title: "AZMA VPN - آی‌پی آمریکا",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioVpn,
-    description: "معرفی فیلترشکن قوی برای دسترسی به خدمات بین‌المللی.",
-    client: "AZMA VPN",
-    year: "۱۴۰۳",
-    results: ["طراحی ۳D جذاب", "افزایش دانلود ۵۰۰٪"],
-    technologies: ["Photoshop", "Blender", "Motion Graphics"],
-  },
-  {
-    id: 6,
-    title: "ایجاد حساب ایمیل دانشجویی",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioEmail,
-    description: "آموزش ساخت ایمیل دانشجویی موقت و رایگان برای دسترسی به خدمات.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["کاراکتر ۳D خلاقانه", "آموزش کاربردی"],
-    technologies: ["Photoshop", "3D Character", "Illustrator"],
-  },
-  {
-    id: 7,
-    title: "بیمه شخص ثالث - بهترین قیمت",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioInsurance,
-    description: "بیمه ثالث و بدنه، اقساطی بدون چک. طراحی خلاقانه با کاراکترهای ۳D.",
-    client: "بیمه شهبازی",
-    year: "۱۴۰۳",
-    results: ["طراحی وایرال", "افزایش مشتری ۳۰۰٪"],
-    technologies: ["Photoshop", "AI Image", "3D Characters"],
-  },
-  {
-    id: 8,
-    title: "طراحی محتوای اجتماعی",
-    category: "instagram",
-    categoryLabel: "اینستاگرام",
-    image: portfolioSocial,
-    description: "خم نشو برای زباله من - طراحی محتوای فرهنگی با تاثیرگذاری بالا.",
-    client: "محتوای فرهنگی",
-    year: "۱۴۰۳",
-    results: ["محتوای وایرال", "۲ میلیون بازدید"],
-    technologies: ["Photoshop", "Color Grading", "Typography"],
-  },
-  {
-    id: 9,
-    title: "عسل ازما - طبیعت در یک قاشق",
-    category: "logo",
-    categoryLabel: "طراحی لوگو",
-    image: portfolioHoney,
-    description: "عسل ازما، حاصل تلاش زنبورهایی در دل طبیعت بکر ایران، بدون افزودنی و کاملاً خالص.",
-    client: "عسل ازما",
-    year: "۱۴۰۳",
-    results: ["برندینگ حرفه‌ای", "افزایش فروش ۲۰۰٪"],
-    technologies: ["Photoshop", "Product Photography", "Branding"],
-  },
-  {
-    id: 10,
-    title: "طراحی کاراکتر و تصویر خلاقانه",
-    category: "poster",
-    categoryLabel: "پوستر و موشن",
-    image: portfolioCharacter,
-    description: "آموزش ساخت کاراکتر و تصویر درست برای طراحی‌های حرفه‌ای.",
-    client: "آژانس ازما",
-    year: "۱۴۰۳",
-    results: ["کاراکتر دیزاین یونیک", "آموزش Google Gemini"],
-    technologies: ["Photoshop", "AI Image Generation", "Illustrator"],
-  },
-];
+import { supabase } from "@/integrations/supabase/client";
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [projects, setProjects] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([{ id: "all", label: "همه" }]);
+  const [selectedProject, setSelectedProject] = useState<any | null>(null);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    const { data } = await supabase
+      .from('portfolio_items')
+      .select('*')
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+
+    if (data) {
+      setProjects(data);
+      
+      // Extract unique categories
+      const uniqueCats = Array.from(new Set(data.map(item => item.category))).filter(Boolean);
+      const newCategories = [
+        { id: "all", label: "همه" },
+        ...uniqueCats.map(cat => ({ id: cat, label: cat }))
+      ];
+      setCategories(newCategories);
+    }
+  };
 
   const filteredProjects = activeCategory === "all" 
     ? projects 
     : projects.filter(p => p.category === activeCategory);
 
-  const openLightbox = (project: typeof projects[0]) => {
+  const openLightbox = (project: any) => {
     setSelectedProject(project);
   };
 
@@ -188,15 +72,6 @@ const Portfolio = () => {
         <link rel="canonical" href="https://azmamarkteng.ir/portfolio" />
         <meta property="og:title" content="نمونه‌کارهای آژانس ازما" />
         <meta property="og:description" content="نمونه‌کارهای حرفه‌ای با انیمیشن‌های سه‌بعدی" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            "name": "نمونه کارها",
-            "description": "گالری نمونه‌کارهای آژانس ازما",
-            "url": "https://azmamarkteng.ir/portfolio"
-          })}
-        </script>
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -289,7 +164,7 @@ const Portfolio = () => {
                     {/* Image */}
                     <div className="relative h-64 overflow-hidden">
                       <motion.img
-                        src={project.image}
+                        src={project.image_url}
                         alt={project.title}
                         className="w-full h-full object-cover"
                         whileHover={{ scale: 1.1 }}
@@ -309,7 +184,7 @@ const Portfolio = () => {
 
                       {/* Category Badge */}
                       <span className="absolute top-4 right-4 px-3 py-1 bg-primary/90 rounded-full text-primary-foreground text-xs font-bold">
-                        {project.categoryLabel}
+                        {project.category}
                       </span>
                     </div>
 
@@ -322,8 +197,8 @@ const Portfolio = () => {
                         {project.description}
                       </p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground">{project.client}</span>
-                        <span className="text-xs text-primary">{project.year}</span>
+                        <span className="text-xs text-muted-foreground">{project.client_name}</span>
+                        {/* Assuming year isn't in DB */}
                       </div>
                     </div>
                   </motion.article>
@@ -395,83 +270,46 @@ const Portfolio = () => {
                   {/* Image */}
                   <div className="relative h-64 md:h-full min-h-[300px]">
                     <img
-                      src={selectedProject.image}
+                      src={selectedProject.image_url}
                       alt={selectedProject.title}
-                      className="w-full h-full object-cover"
+                      className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent md:bg-gradient-to-r" />
                   </div>
 
-                  {/* Info */}
-                  <div className="p-8">
-                    <span className="inline-block px-3 py-1 bg-primary/20 rounded-full text-primary text-xs font-bold mb-4">
-                      {selectedProject.categoryLabel}
-                    </span>
-                    
-                    <h2 className="text-2xl md:text-3xl font-black text-foreground mb-4">
-                      {selectedProject.title}
-                    </h2>
-                    
+                  {/* Details */}
+                  <div className="p-8 flex flex-col justify-center">
+                    <span className="text-primary font-bold mb-2">{selectedProject.category}</span>
+                    <h2 className="text-3xl font-black mb-4">{selectedProject.title}</h2>
                     <p className="text-muted-foreground mb-6 leading-relaxed">
                       {selectedProject.description}
                     </p>
-
-                    {/* Details */}
-                    <div className="grid grid-cols-2 gap-4 mb-6">
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">مشتری</p>
-                        <p className="text-foreground font-medium">{selectedProject.client}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-muted-foreground mb-1">سال</p>
-                        <p className="text-foreground font-medium">{selectedProject.year}</p>
-                      </div>
+                    
+                    <div className="grid grid-cols-2 gap-4 mb-8">
+                       {selectedProject.client_name && (
+                        <div>
+                           <span className="block text-xs text-muted-foreground mb-1">مشتری</span>
+                           <span className="font-bold">{selectedProject.client_name}</span>
+                        </div>
+                       )}
                     </div>
 
-                    {/* Results */}
-                    <div className="mb-6">
-                      <p className="text-xs text-muted-foreground mb-2">نتایج</p>
-                      <div className="space-y-2">
-                        {selectedProject.results.map((result, i) => (
-                          <div key={i} className="flex items-center gap-2">
-                            <div className="w-2 h-2 rounded-full bg-primary" />
-                            <span className="text-foreground text-sm">{result}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Technologies */}
-                    <div className="mb-6">
-                      <p className="text-xs text-muted-foreground mb-2">ابزارها</p>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedProject.technologies.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 bg-secondary rounded-full text-xs text-muted-foreground"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* CTA */}
-                    <Button className="w-full gap-2" asChild>
-                      <Link to="/contact">
-                        <ExternalLink className="w-4 h-4" />
-                        سفارش پروژه مشابه
-                      </Link>
-                    </Button>
+                    {selectedProject.project_url && (
+                        <Button className="w-full gap-2" asChild>
+                          <a href={selectedProject.project_url} target="_blank" rel="noopener noreferrer">
+                            مشاهده پروژه
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        </Button>
+                    )}
                   </div>
                 </div>
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
-
-        <Footer />
+        
         <ChatWidget />
+        <Footer />
       </div>
     </>
   );
