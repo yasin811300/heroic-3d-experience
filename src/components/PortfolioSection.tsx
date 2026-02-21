@@ -2,35 +2,29 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import portfolio1 from "@/assets/portfolio-1.jpg";
-import portfolio2 from "@/assets/portfolio-2.jpg";
-import portfolio3 from "@/assets/portfolio-3.jpg";
-
-const projects = [
-  {
-    image: portfolio1,
-    category: "رستوران طعم خاص",
-    title: "طراحی سایت + سئو",
-    result: "افزایش ۳۰۰٪ رزرو آنلاین در ۲ ماه",
-    slug: "restaurant-website",
-  },
-  {
-    image: portfolio2,
-    category: "فروشگاه مردانه",
-    title: "مدیریت اینستاگرام",
-    result: "از ۲k به ۴۵k فالوور در ۶ ماه",
-    slug: "fashion-instagram",
-  },
-  {
-    image: portfolio3,
-    category: "آژانس گردشگری",
-    title: "کمپین تبلیغاتی",
-    result: "فروش ۲۵۰٪ بیشتر در نوروز",
-    slug: "travel-campaign",
-  },
-];
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const PortfolioSection = () => {
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data } = await supabase
+        .from('portfolio_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order', { ascending: true })
+        .limit(6);
+      
+      if (data) {
+        setProjects(data);
+      }
+    };
+    
+    fetchProjects();
+  }, []);
+
   return (
     <section id="portfolio" className="py-24 relative">
       <div className="container">
@@ -59,17 +53,17 @@ const PortfolioSection = () => {
         {/* Portfolio Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {projects.map((project, index) => (
-            <Link to={`/portfolio/${project.slug}`} key={project.title}>
+            <Link to={`/portfolio`} key={project.id}>
               <motion.article
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group relative rounded-3xl overflow-hidden h-80 cursor-pointer"
               >
                 {/* Image */}
                 <motion.img
-                  src={project.image}
+                  src={project.image_url}
                   alt={project.title}
                   className="w-full h-full object-cover"
                   whileHover={{ scale: 1.1 }}
@@ -88,7 +82,7 @@ const PortfolioSection = () => {
                   <h3 className="text-xl font-bold text-foreground mb-2">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm">{project.result}</p>
+                  <p className="text-muted-foreground text-sm line-clamp-2">{project.description}</p>
                 </motion.div>
 
                 {/* Always visible gradient at bottom */}
