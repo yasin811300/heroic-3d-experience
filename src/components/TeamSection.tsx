@@ -28,6 +28,12 @@ const team = [
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
     bio: "۵۰+ پروژه موفق سئو",
   },
+  {
+    name: "نگین سلمانی",
+    role: "طراح سایت و سئو کار",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
+    bio: "متخصص طراحی وب و بهینه‌سازی موتورهای جستجو",
+  },
 ];
 
 const TeamSection = () => {
