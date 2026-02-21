@@ -31,8 +31,8 @@ const team = [
   {
     name: "نگین سلمانی",
     role: "طراح سایت و سئو کار",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
-    bio: "متخصص طراحی وب و بهینه‌سازی موتورهای جستجو",
+    image: "/team/negin-salmani.jpg",
+    bio: "۴ سال تجربه در طراحی وب و سئو",
   },
 ];
 
