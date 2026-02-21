@@ -41,6 +41,9 @@ const Header = () => {
     label: "نمونه‌کار",
     href: "/portfolio"
   }, {
+    label: "VPN",
+    href: "/vpn"
+  }, {
     label: "باشگاه مشتریان",
     href: "/club"
   }, {

@@ -21,6 +21,7 @@ import Partners from "./pages/Partners";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import CustomerClub from "./pages/CustomerClub";
+import VPN from "./pages/VPN";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/club" element={<CustomerClub />} />
+            <Route path="/vpn" element={<VPN />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin/login" element={<AdminAuth />} />
             <Route path="/admin/setup" element={<AdminSetup />} />
