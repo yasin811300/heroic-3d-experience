@@ -51,50 +51,43 @@ const PortfolioSection = () => {
         </motion.div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="columns-1 md:columns-3 gap-6 space-y-6">
           {projects.map((project, index) => (
-            <Link to={`/portfolio`} key={project.id}>
+            <Link to="/portfolio" key={project.id} className="break-inside-avoid block">
               <motion.article
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group relative rounded-3xl overflow-hidden h-80 cursor-pointer"
+                whileHover={{ rotateY: -4, rotateX: 3, scale: 1.02 }}
+                style={{ perspective: "800px", transformStyle: "preserve-3d" }}
+                className="group relative rounded-3xl overflow-hidden cursor-pointer bg-background/30 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
               >
-                {/* Image */}
                 <motion.img
                   src={project.image_url}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
+                  alt={`${project.title} - ${project.category} | نمونه کار آژانس ازما`}
+                  title={project.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-auto object-contain"
+                  whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.6 }}
                 />
 
-                {/* Overlay */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileHover={{ opacity: 1, y: 0 }}
-                  className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent flex flex-col justify-end p-6"
-                >
-                  <span className="text-primary text-sm font-bold mb-1">
-                    {project.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-foreground mb-2">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm line-clamp-2">{project.description}</p>
-                </motion.div>
-
-                {/* Always visible gradient at bottom */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background/90 to-transparent pointer-events-none group-hover:opacity-0 transition-opacity duration-300" />
-                <div className="absolute bottom-4 right-4 left-4 group-hover:opacity-0 transition-opacity duration-300">
-                  <span className="text-primary text-sm font-bold">
-                    {project.category}
-                  </span>
-                  <h3 className="text-lg font-bold text-foreground">
-                    {project.title}
-                  </h3>
+                {/* Glass overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
+                  <span className="text-primary text-sm font-bold mb-1">{project.category}</span>
+                  <h3 className="text-lg font-bold text-foreground">{project.title}</h3>
                 </div>
+
+                {/* Always visible bottom info */}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/70 to-transparent p-4 group-hover:opacity-0 transition-opacity duration-300">
+                  <span className="text-primary text-xs font-bold">{project.category}</span>
+                  <h3 className="text-sm font-bold text-foreground">{project.title}</h3>
+                </div>
+
+                {/* Glass reflection */}
+                <div className="absolute inset-0 rounded-3xl pointer-events-none bg-gradient-to-br from-white/[0.08] via-transparent to-transparent" />
               </motion.article>
             </Link>
           ))}
