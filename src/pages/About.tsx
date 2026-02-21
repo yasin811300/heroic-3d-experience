@@ -53,6 +53,13 @@ const team = [
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
     description: "۷ سال سابقه | کارت هوشمند",
     color: "text-orange-400"
+  },
+  {
+    name: "نگین سلمانی",
+    role: "طراح سایت و سئو کار",
+    image: "/team/negin-salmani.jpg",
+    description: "۴ سال سابقه | ملکه کدنویسی ازما 👑",
+    color: "text-primary"
   }
 ];
 

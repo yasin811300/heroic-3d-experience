@@ -5,7 +5,7 @@ const team = [
   {
     name: "یاسین سالارناظم",
     role: "مدیرعامل و بنیان‌گذار",
-    image: "/yasin.jpg",
+    image: "https://azmamarkteng.ir/yasin.jpg",
     bio: "بنیان‌گذار آژانس ازما با تجربه در دیجیتال مارکتینگ",
     telegram: "https://t.me/yasin_salarnazem",
     instagram: "https://instagram.com/yasin_salarnazem",
@@ -31,6 +31,7 @@ const team = [
   {
     name: "نگین سلمانی",
     role: "طراح سایت و سئو کار",
+    title: "ملکه کدنویسی ازما 👑",
     image: "/team/negin-salmani.jpg",
     bio: "۴ سال تجربه در طراحی وب و سئو",
   },
@@ -57,7 +58,7 @@ const TeamSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {team.map((member, index) => (
             <motion.article
               key={member.name}
@@ -96,9 +97,12 @@ const TeamSection = () => {
               <h3 className="text-lg font-bold text-foreground mb-1">
                 {member.name}
               </h3>
-              <p className="text-primary text-sm font-medium mb-2">
+              <p className="text-primary text-sm font-medium mb-1">
                 {member.role}
               </p>
+              {member.title && (
+                <p className="text-xs text-muted-foreground/80 italic mb-2">{member.title}</p>
+              )}
               <p className="text-muted-foreground text-sm mb-4">{member.bio}</p>
 
               {/* Social Links */}
