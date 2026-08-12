@@ -115,6 +115,19 @@
   }
 }
 
+/* Global frosted glass for every card-like surface */
+@layer components {
+  [class*="bg-card"],
+  [class*="bg-secondary"],
+  [class*="bg-popover"],
+  [class*="bg-muted"] {
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    background-color: hsl(var(--card) / 0.45);
+    border-color: hsl(var(--border) / 0.6);
+  }
+}
+
 @layer utilities {
   /* Glass Effect */
   .glass {

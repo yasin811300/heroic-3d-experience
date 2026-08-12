@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
+import CinematicHero from "@/components/CinematicHero";
 import ServicesSection from "@/components/ServicesSection";
 import StatsSection from "@/components/StatsSection";
 import PortfolioSection from "@/components/PortfolioSection";
@@ -88,7 +88,7 @@ const Index = () => {
         </script>
       </Helmet>
       
-      <div ref={mainRef} className="min-h-screen bg-background overflow-x-hidden">
+      <div ref={mainRef} className="min-h-screen bg-background [overflow-x:clip]">
         {/* Noise Overlay */}
         <div className="noise-overlay" />
         
@@ -100,7 +100,7 @@ const Index = () => {
 
         {/* Main Content */}
         <main>
-          <HeroSection />
+          <CinematicHero />
           <ClientsSection />
           <ServicesSection />
           
