@@ -88,7 +88,7 @@ const Index = () => {
         </script>
       </Helmet>
       
-      <div ref={mainRef} className="min-h-screen bg-background overflow-x-hidden">
+      <div ref={mainRef} className="min-h-screen bg-background [overflow-x:clip]">
         {/* Noise Overlay */}
         <div className="noise-overlay" />
         
@@ -100,7 +100,7 @@ const Index = () => {
 
         {/* Main Content */}
         <main>
-          <HeroSection />
+          <CinematicHero />
           <ClientsSection />
           <ServicesSection />
           
