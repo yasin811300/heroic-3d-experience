@@ -111,8 +111,8 @@ tabIndex={-1}
         />
 
         {/* Legibility gradients — keep brand dark/gold palette */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,transparent_0%,hsl(var(--background)/0.75)_75%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/60 via-background/25 to-background" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,transparent_0%,hsl(var(--background)/0.6)_80%)]" />
 
         {/* Side callouts */}
         {SCENES.map((scene, i) => {
