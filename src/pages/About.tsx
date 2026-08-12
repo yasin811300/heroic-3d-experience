@@ -89,6 +89,9 @@ const certifications = [
   { name: "Adobe Creative", icon: "🎨" }
 ];
 
+// پس از اتصال GitHub در Lovable، این URL را با لینک واقعی ریپازیتوری خود جایگزین کنید
+const GITHUB_REPO_URL = "https://github.com/your-username/your-repo";
+
 const About = () => {
   return (
     <>
