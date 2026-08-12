@@ -93,6 +93,19 @@ const certifications = [
 const GITHUB_REPO_URL = "https://github.com/your-username/your-repo";
 
 const About = () => {
+  const [copied, setCopied] = useState(false);
+  const cloneCommand = `git clone ${GITHUB_REPO_URL}.git`;
+
+  const handleCopyClone = async () => {
+    try {
+      await navigator.clipboard.writeText(cloneCommand);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
   return (
     <>
       <Helmet>
