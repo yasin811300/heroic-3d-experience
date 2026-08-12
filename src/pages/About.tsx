@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { 
   Award, Users, Target, Heart, Lightbulb, Rocket,
   ArrowLeft, Star, CheckCircle, Gem, Handshake,
-  TrendingUp, Globe, Shield, Zap, Clock, Coffee
+  TrendingUp, Globe, Shield, Zap, Clock, Coffee,
+  Code, GitBranch, Copy, Check
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
