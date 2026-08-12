@@ -423,6 +423,82 @@ const About = () => {
           </div>
         </section>
 
+        {/* Source Code Section */}
+        <section className="py-20 relative bg-gradient-to-b from-secondary/20 to-transparent">
+          <div className="container">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <span className="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                <Code className="w-4 h-4 inline-block ml-2" />
+                دسترسی به سورس کد
+              </span>
+              <h2 className="text-3xl md:text-4xl font-black text-foreground mb-4">
+                لینک GitHub و دستور <span className="text-gradient-gold">clone</span>
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                برای دریافت فایل‌های کامل پروژه، ابتدا GitHub را در Lovable متصل کنید، سپس از دستور زیر استفاده کنید.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="max-w-3xl mx-auto"
+            >
+              <div className="glass rounded-3xl p-6 md:p-8 overflow-hidden">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <GitBranch className="w-5 h-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-foreground">ریپازیتوری GitHub</h3>
+                      <p className="text-sm text-muted-foreground">لینک و دستور clone پروژه</p>
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="gap-2"
+                    onClick={handleCopyClone}
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        کپی شد
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        کپی
+                      </>
+                    )}
+                  </Button>
+                </div>
+
+                <div className="bg-background/80 rounded-2xl p-4 md:p-6 font-mono text-sm text-foreground overflow-x-auto border border-border/50 ltr">
+                  <div className="text-muted-foreground mb-2"># لینک ریپازیتوری</div>
+                  <div className="mb-4 break-all">{GITHUB_REPO_URL}</div>
+                  <div className="text-muted-foreground mb-2"># دستور clone</div>
+                  <div className="break-all">{cloneCommand}</div>
+                </div>
+
+                <div className="mt-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20">
+                  <p className="text-sm text-amber-200 leading-relaxed">
+                    <strong>نکته:</strong> در حال حاضر این پروژه روی ذخیره‌سازی خصوصی Lovable قرار دارد. برای دریافت لینک واقعی GitHub، از منوی Lovable گزینه <strong>GitHub → Connect project</strong> را انتخاب کنید. پس از اتصال، مقدار <code className="bg-background/50 px-1 rounded">GITHUB_REPO_URL</code> را در فایل <code className="bg-background/50 px-1 rounded">src/pages/About.tsx</code> به‌روزرسانی کنید.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-20 relative">
           <div className="container">
