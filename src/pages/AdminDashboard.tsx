@@ -33,6 +33,9 @@ import UsersManager from "@/components/admin/UsersManager";
 import OrdersManager from "@/components/admin/OrdersManager";
 import PortfolioManager from "@/components/admin/PortfolioManager";
 import DashboardStats from "@/components/admin/DashboardStats";
+import TeamManager from "@/components/admin/TeamManager";
+import SettingsManager from "@/components/admin/SettingsManager";
+import PageBuilder from "@/components/admin/PageBuilder";
 
 const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -91,6 +94,8 @@ const AdminDashboard = () => {
     { icon: ShoppingBag, label: "مدیریت سفارشات", id: "orders" },
     { icon: BookOpen, label: "مدیریت بلاگ", id: "blog-manager" },
     { icon: Image, label: "نمونه‌کارها", id: "portfolio" },
+    { icon: Users, label: "مدیریت تیم", id: "team" },
+    { icon: LayoutDashboard, label: "صفحه‌ساز (Link in Bio)", id: "page-builder" },
     { icon: Sparkles, label: "استودیو AI", id: "ai-studio" },
     { icon: Bot, label: "مدیریت سایت", id: "site-manager" },
     { icon: FileEdit, label: "ویرایش محتوا", id: "content-editor" },
@@ -234,16 +239,12 @@ const AdminDashboard = () => {
             {activeSection === "orders" && <OrdersManager />}
             {activeSection === "blog-manager" && <BlogManager />}
             {activeSection === "portfolio" && <PortfolioManager />}
+            {activeSection === "team" && <TeamManager />}
+            {activeSection === "page-builder" && <PageBuilder />}
             {activeSection === "ai-studio" && <AIStudio />}
             {activeSection === "site-manager" && <SiteManager />}
             {activeSection === "content-editor" && <ContentEditor />}
-            {activeSection === "settings" && (
-              <div className="glass rounded-2xl p-8 text-center">
-                <Settings className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2">تنظیمات</h3>
-                <p className="text-muted-foreground">بخش تنظیمات در حال توسعه است...</p>
-              </div>
-            )}
+            {activeSection === "settings" && <SettingsManager />}
           </div>
         </main>
       </div>
