@@ -1,7 +1,21 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Linkedin, Instagram, Twitter, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
-const team = [
+interface Member {
+  name: string;
+  role: string;
+  title?: string | null;
+  image: string;
+  bio: string;
+  telegram?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  twitter?: string | null;
+}
+
+const fallbackTeam: Member[] = [
   {
     name: "یاسین سالارناظم",
     role: "مدیرعامل و بنیان‌گذار",
@@ -9,24 +23,6 @@ const team = [
     bio: "بنیان‌گذار آژانس ازما با تجربه در دیجیتال مارکتینگ",
     telegram: "https://t.me/yasin_salarnazem",
     instagram: "https://instagram.com/yasin_salarnazem",
-  },
-  {
-    name: "سارا محمدی",
-    role: "مدیر خلاقیت",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face",
-    bio: "طراح برنده جوایز بین‌المللی",
-  },
-  {
-    name: "محمد حسینی",
-    role: "توسعه‌دهنده ارشد",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-    bio: "متخصص React و Node.js",
-  },
-  {
-    name: "مریم رضایی",
-    role: "متخصص سئو",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
-    bio: "۵۰+ پروژه موفق سئو",
   },
   {
     name: "نگین سلمانی",
@@ -38,6 +34,35 @@ const team = [
 ];
 
 const TeamSection = () => {
+  const [team, setTeam] = useState<Member[]>(fallbackTeam);
+
+  useEffect(() => {
+    const load = async () => {
+      const { data } = await (supabase as any)
+        .from("team_members")
+        .select("*")
+        .eq("is_active", true)
+        .order("display_order");
+
+      if (data && data.length) {
+        setTeam(
+          data.map((m: any) => ({
+            name: m.name,
+            role: m.role,
+            title: m.title,
+            image: m.image_url || "/placeholder.svg",
+            bio: m.bio || "",
+            telegram: m.telegram,
+            instagram: m.instagram,
+            linkedin: m.linkedin,
+            twitter: m.twitter,
+          }))
+        );
+      }
+    };
+    load();
+  }, []);
+
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Background */}
