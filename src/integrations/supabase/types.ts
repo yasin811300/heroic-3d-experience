@@ -104,6 +104,45 @@ export type Database = {
         }
         Relationships: []
       }
+      builder_pages: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          blocks: Json
+          created_at: string
+          id: string
+          is_published: boolean
+          slug: string
+          theme: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          blocks?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          slug: string
+          theme?: Json
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          blocks?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          slug?: string
+          theme?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       club_businesses: {
         Row: {
           category: string | null
@@ -352,6 +391,57 @@ export type Database = {
           key?: string
           updated_at?: string
           value?: string | null
+        }
+        Relationships: []
+      }
+      team_members: {
+        Row: {
+          bio: string | null
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string | null
+          instagram: string | null
+          is_active: boolean
+          linkedin: string | null
+          name: string
+          role: string
+          telegram: string | null
+          title: string | null
+          twitter: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          instagram?: string | null
+          is_active?: boolean
+          linkedin?: string | null
+          name: string
+          role?: string
+          telegram?: string | null
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          instagram?: string | null
+          is_active?: boolean
+          linkedin?: string | null
+          name?: string
+          role?: string
+          telegram?: string | null
+          title?: string | null
+          twitter?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
