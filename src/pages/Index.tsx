@@ -5,6 +5,7 @@ import StatsSection from "@/components/StatsSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ProcessSection from "@/components/ProcessSection";
 import TeamSection from "@/components/TeamSection";
+import SmartCardSection from "@/components/SmartCardSection";
 import ClientsSection from "@/components/ClientsSection";
 import PricingSection from "@/components/PricingSection";
 import TechSection from "@/components/TechSection";
@@ -103,6 +104,7 @@ const Index = () => {
           <CinematicHero />
           <ClientsSection />
           <ServicesSection />
+        <SmartCardSection />
           
           <StatsSection />
           <CertificationsSection />

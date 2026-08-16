@@ -38,6 +38,9 @@ const Header = () => {
     label: "خدمات",
     href: "/services"
   }, {
+    label: "کارت هوشمند",
+    href: "/smart-card"
+  }, {
     label: "نمونه‌کار",
     href: "/portfolio"
   }, {
