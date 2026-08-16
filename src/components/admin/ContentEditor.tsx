@@ -8,7 +8,7 @@ import {
   Image,
   Type,
   RefreshCw,
-  Search,
+  Search, Code,
   X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -253,6 +253,10 @@ const ContentEditor = () => {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
                           {item.content_type === "image" ? (
+                            <Image className="w-4 h-4 text-blue-500" />
+                          ) : item.content_type === "json" ? (
+                            <Code className="w-4 h-4 text-orange-500" />
+                          ) : (
                             <Image className="w-4 h-4 text-blue-500" />
                           ) : (
                             <Type className="w-4 h-4 text-green-500" />
