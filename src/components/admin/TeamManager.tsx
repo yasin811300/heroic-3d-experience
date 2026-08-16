@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
+import { Edit2, useEffect, useRef, useState } from "react";
+import { Edit2, motion, AnimatePresence } from "framer-motion";
+import { Edit2,
   Plus,
   Trash2,
   Save,
@@ -13,14 +13,14 @@ import {
   EyeOff,
   Loader2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { fileToCompressedDataUrl } from "@/lib/image";
+import { Edit2, Button } from "@/components/ui/button";
+import { Edit2, Input } from "@/components/ui/input";
+import { Edit2, Textarea } from "@/components/ui/textarea";
+import { Edit2, Label } from "@/components/ui/label";
+import { Edit2, Switch } from "@/components/ui/switch";
+import { Edit2, supabase } from "@/integrations/supabase/client";
+import { Edit2, toast } from "sonner";
+import { Edit2, fileToCompressedDataUrl } from "@/lib/image";
 
 export interface TeamMember {
   id: string;
@@ -288,7 +288,7 @@ const TeamManager = () => {
                 {m.title && <p className="text-xs text-muted-foreground truncate">{m.title}</p>}
                 <div className="flex gap-1 mt-2 flex-wrap">
                   <Button size="icon" variant="ghost" onClick={() => setDraft(m)} title="ویرایش">
-                    <Save className="w-4 h-4" />
+                    <Edit2 className="w-4 h-4" />
                   </Button>
                   <Button size="icon" variant="ghost" onClick={() => toggleActive(m)} title="نمایش/عدم نمایش">
                     {m.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}

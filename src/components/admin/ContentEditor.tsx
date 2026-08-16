@@ -202,6 +202,7 @@ const ContentEditor = () => {
                 <option value="text">متن</option>
                 <option value="image">تصویر</option>
                 <option value="html">HTML</option>
+                <option value="json">JSON</option>
               </select>
             </div>
             
