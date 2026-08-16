@@ -18,6 +18,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+const DEFAULT_PRICING_PLANS = [
+  { name: "استارتاپ", icon: "Zap", price: "۲,۹۰۰,۰۰۰", description: "برای کسب‌وکارهای تازه‌کار", features: ["طراحی لوگو", "۵ صفحه سایت", "هاست و دامنه یکساله", "پشتیبانی ۳ ماهه"], popular: false, gradient: "from-blue-500 to-cyan-400" },
+  { name: "حرفه‌ای", icon: "Star", price: "۷,۹۰۰,۰۰۰", description: "محبوب‌ترین انتخاب", features: ["هویت بصری کامل", "سایت نامحدود صفحه", "سئو پایه", "مدیریت اینستا ۳ ماه", "پشتیبانی ۶ ماهه", "اپلیکیشن موبایل"], popular: true, gradient: "from-primary to-gold-light" },
+  { name: "سازمانی", icon: "Crown", price: "۱۴,۹۰۰,۰۰۰", description: "برای برندهای بزرگ", features: ["همه امکانات حرفه‌ای", "سئو پیشرفته", "کمپین تبلیغاتی", "مشاور اختصاصی", "پشتیبانی ۱ ساله", "گزارش‌های ماهانه", "تولید محتوا"], popular: false, gradient: "from-purple-500 to-pink-500" },
+];
+
 interface EditableContent {
   id: string;
   page_name: string;
@@ -33,6 +39,8 @@ const ContentEditor = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newItem, setNewItem] = useState<Partial<EditableContent> | null>(null);
+  const [pricingPlans, setPricingPlans] = useState(DEFAULT_PRICING_PLANS);
+  const [savingPricing, setSavingPricing] = useState(false);
 
   useEffect(() => {
     fetchContents();
@@ -48,11 +56,38 @@ const ContentEditor = () => {
 
       if (error) throw error;
       setContents(data as EditableContent[] || []);
+      const pricing = (data as EditableContent[] | null)?.find((item) => item.page_name === "home" && item.section_key === "pricing_plans");
+      if (pricing?.content) {
+        try {
+          const parsed = JSON.parse(pricing.content);
+          if (Array.isArray(parsed)) setPricingPlans(parsed);
+        } catch {
+          setPricingPlans(DEFAULT_PRICING_PLANS);
+        }
+      }
     } catch (error: any) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const savePricing = async () => {
+    setSavingPricing(true);
+    const payload = {
+      page_name: "home",
+      section_key: "pricing_plans",
+      content_type: "json",
+      content: JSON.stringify(pricingPlans),
+      image_url: "",
+    };
+    const { error } = await supabase
+      .from("editable_content")
+      .upsert(payload, { onConflict: "page_name,section_key" });
+    setSavingPricing(false);
+    if (error) return toast.error(error.message);
+    toast.success("تعرفه‌های صفحه اصلی ذخیره شد");
+    fetchContents();
   };
 
   const saveContent = async (item: EditableContent) => {
@@ -165,6 +200,38 @@ const ContentEditor = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="pr-10"
         />
+      </div>
+
+      <div className="glass rounded-xl p-5 space-y-5" dir="rtl">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div>
+            <h3 className="font-bold">تعرفه‌های صفحه اصلی</h3>
+            <p className="text-sm text-muted-foreground">نام، قیمت، توضیح و امکانات هر بسته را مستقیم ویرایش کنید</p>
+          </div>
+          <Button onClick={savePricing} disabled={savingPricing}>
+            {savingPricing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            ذخیره تعرفه‌ها
+          </Button>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {pricingPlans.map((plan, planIndex) => (
+            <div key={planIndex} className="rounded-xl border border-border p-4 space-y-3 bg-card/40">
+              <Input value={plan.name} onChange={(e) => setPricingPlans((items) => items.map((item, i) => i === planIndex ? { ...item, name: e.target.value } : item))} placeholder="نام بسته" />
+              <Input value={plan.price} onChange={(e) => setPricingPlans((items) => items.map((item, i) => i === planIndex ? { ...item, price: e.target.value } : item))} placeholder="قیمت" />
+              <Textarea value={plan.description} onChange={(e) => setPricingPlans((items) => items.map((item, i) => i === planIndex ? { ...item, description: e.target.value } : item))} placeholder="توضیح" rows={2} />
+              <Textarea
+                value={plan.features.join("\n")}
+                onChange={(e) => setPricingPlans((items) => items.map((item, i) => i === planIndex ? { ...item, features: e.target.value.split("\n").filter(Boolean) } : item))}
+                placeholder="هر ویژگی در یک خط"
+                rows={6}
+              />
+              <label className="flex items-center gap-2 text-sm">
+                <input type="checkbox" checked={plan.popular} onChange={(e) => setPricingPlans((items) => items.map((item, i) => ({ ...item, popular: i === planIndex ? e.target.checked : e.target.checked ? false : item.popular })))} />
+                نمایش به‌عنوان پرفروش‌ترین
+              </label>
+            </div>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
