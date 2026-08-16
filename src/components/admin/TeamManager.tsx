@@ -92,15 +92,15 @@ const TeamManager = () => {
     }
     setSaving(true);
     const payload = {
-      name: draft.name,
-      role: draft.role || "",
-      title: draft.title || null,
-      bio: draft.bio || "",
-      image_url: draft.image_url || "",
-      telegram: draft.telegram || null,
-      instagram: draft.instagram || null,
-      linkedin: draft.linkedin || null,
-      twitter: draft.twitter || null,
+      name: draft.name.trim(),
+      role: draft.role?.trim() || "",
+      title: draft.title?.trim() || null,
+      bio: draft.bio?.trim() || "",
+      image_url: draft.image_url?.trim() || "",
+      telegram: draft.telegram?.trim() || null,
+      instagram: draft.instagram?.trim() || null,
+      linkedin: draft.linkedin?.trim() || null,
+      twitter: draft.twitter?.trim() || null,
       display_order: draft.display_order ?? members.length + 1,
       is_active: draft.is_active ?? true,
     };
@@ -290,7 +290,7 @@ const TeamManager = () => {
                 <p className="text-sm text-primary truncate">{m.role}</p>
                 {m.title && <p className="text-xs text-muted-foreground truncate">{m.title}</p>}
                 <div className="flex gap-1 mt-2 flex-wrap">
-                  <Button size="icon" variant="ghost" onClick={() => setDraft(m)} title="ویرایش">
+                  <Button size="icon" variant="ghost" onClick={() => setDraft({ ...m })} title="ویرایش">
                     <Edit2 className="w-4 h-4" />
                   </Button>
                   <Button size="icon" variant="ghost" onClick={() => toggleActive(m)} title="نمایش/عدم نمایش">

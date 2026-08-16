@@ -104,7 +104,7 @@ const Index = () => {
           <CinematicHero />
           <ClientsSection />
           <ServicesSection />
-        <SmartCardSection />
+          <SmartCardSection />
           
           <StatsSection />
           <CertificationsSection />
