@@ -8,8 +8,9 @@ import {
   Image,
   Type,
   RefreshCw,
-  Search, Code,
-  X
+  Search,
+  X,
+  Code
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -156,7 +157,6 @@ const ContentEditor = () => {
         </div>
       </div>
 
-      {/* Search */}
       <div className="relative">
         <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
@@ -167,7 +167,6 @@ const ContentEditor = () => {
         />
       </div>
 
-      {/* Add New Content Form */}
       <AnimatePresence>
         {newItem && (
           <motion.div
@@ -228,7 +227,6 @@ const ContentEditor = () => {
         )}
       </AnimatePresence>
 
-      {/* Content List */}
       {loading ? (
         <div className="text-center py-8">
           <RefreshCw className="w-8 h-8 animate-spin mx-auto text-muted-foreground" />
@@ -256,8 +254,6 @@ const ContentEditor = () => {
                             <Image className="w-4 h-4 text-blue-500" />
                           ) : item.content_type === "json" ? (
                             <Code className="w-4 h-4 text-orange-500" />
-                          ) : (
-                            <Image className="w-4 h-4 text-blue-500" />
                           ) : (
                             <Type className="w-4 h-4 text-green-500" />
                           )}
@@ -354,12 +350,6 @@ const ContentEditor = () => {
               </div>
             </motion.div>
           ))}
-          
-          {Object.keys(groupedContents).length === 0 && (
-            <p className="text-center text-muted-foreground py-8">
-              {searchTerm ? "نتیجه‌ای یافت نشد" : "هنوز محتوایی اضافه نشده"}
-            </p>
-          )}
         </div>
       )}
     </div>
