@@ -134,7 +134,7 @@ const TeamSection = () => {
               <div className="flex justify-center gap-3">
                 {member.telegram && (
                   <motion.a
-                    href={member.telegram}
+                    href={member.telegram.startsWith("http") ? member.telegram : `https://t.me/${member.telegram.replace("@", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, y: -2 }}
@@ -145,7 +145,7 @@ const TeamSection = () => {
                 )}
                 {member.instagram && (
                   <motion.a
-                    href={member.instagram}
+                    href={member.instagram.startsWith("http") ? member.instagram : `https://instagram.com/${member.instagram.replace("@", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, y: -2 }}
@@ -154,16 +154,28 @@ const TeamSection = () => {
                     <Instagram className="w-4 h-4" />
                   </motion.a>
                 )}
-                {!member.telegram && !member.instagram && [Linkedin, Instagram, Twitter].map((Icon, i) => (
+                {member.linkedin && (
                   <motion.a
-                    key={i}
-                    href="#"
+                    href={member.linkedin.startsWith("http") ? member.linkedin : `https://linkedin.com/in/${member.linkedin}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{ scale: 1.2, y: -2 }}
                     className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
                   >
-                    <Icon className="w-4 h-4" />
+                    <Linkedin className="w-4 h-4" />
                   </motion.a>
-                ))}
+                )}
+                {member.twitter && (
+                  <motion.a
+                    href={member.twitter.startsWith("http") ? member.twitter : `https://twitter.com/${member.twitter.replace("@", "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.2, y: -2 }}
+                    className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <Twitter className="w-4 h-4" />
+                  </motion.a>
+                )}
               </div>
             </motion.article>
           ))}

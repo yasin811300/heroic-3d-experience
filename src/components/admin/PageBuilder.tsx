@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -114,6 +114,23 @@ const PageBuilder = () => {
   const avatarRef = useRef<HTMLInputElement>(null);
   const bgRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const loadPage = async () => {
+      const { data, error } = await (supabase as any)
+        .from("builder_pages")
+        .select("slug,title,bio,avatar_url,theme,blocks")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (error || !data) return;
+      setTitle(data.title || "");
+      setBio(data.bio || "");
+      setAvatar(data.avatar_url || "");
+      if (data.theme) setTheme(data.theme as Theme);
+      if (Array.isArray(data.blocks)) setBlocks(data.blocks as Block[]);
+    };
+    loadPage();
+  }, []);
+
   const background = useMemo(() => {
     if (theme.mode === "image" && theme.image) return { backgroundImage: `url(${theme.image})`, backgroundSize: "cover", backgroundPosition: "center" };
     if (theme.mode === "color") return { background: theme.color };
@@ -149,6 +166,8 @@ const PageBuilder = () => {
 
   const savePage = async () => {
     if (!slug.trim()) return toast.error("نامک صفحه الزامی است");
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return toast.error("برای ذخیره صفحه دوباره وارد پنل شوید");
     setSaving(true);
     const payload = {
       slug: slug.trim(),

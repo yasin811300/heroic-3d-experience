@@ -12,6 +12,7 @@ import {
   Eye,
   EyeOff,
   Loader2,
+  Edit2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -91,15 +92,15 @@ const TeamManager = () => {
     }
     setSaving(true);
     const payload = {
-      name: draft.name,
-      role: draft.role || "",
-      title: draft.title || null,
-      bio: draft.bio || "",
-      image_url: draft.image_url || "",
-      telegram: draft.telegram || null,
-      instagram: draft.instagram || null,
-      linkedin: draft.linkedin || null,
-      twitter: draft.twitter || null,
+      name: draft.name.trim(),
+      role: draft.role?.trim() || "",
+      title: draft.title?.trim() || null,
+      bio: draft.bio?.trim() || "",
+      image_url: draft.image_url?.trim() || "",
+      telegram: draft.telegram?.trim() || null,
+      instagram: draft.instagram?.trim() || null,
+      linkedin: draft.linkedin?.trim() || null,
+      twitter: draft.twitter?.trim() || null,
       display_order: draft.display_order ?? members.length + 1,
       is_active: draft.is_active ?? true,
     };
@@ -141,6 +142,8 @@ const TeamManager = () => {
     if (target < 0 || target >= members.length) return;
     const a = members[index];
     const b = members[target];
+    
+    // Perform updates
     await (supabase as any).from("team_members").update({ display_order: b.display_order }).eq("id", a.id);
     await (supabase as any).from("team_members").update({ display_order: a.display_order }).eq("id", b.id);
     fetchMembers();
@@ -202,55 +205,55 @@ const TeamManager = () => {
                 <Input
                   placeholder="یا آدرس عکس (URL)"
                   value={draft.image_url?.startsWith("data:") ? "" : draft.image_url || ""}
-                  onChange={(e) => setDraft({ ...draft, image_url: e.target.value })}
+                  onChange={(e) => setDraft(prev => ({ ...(prev || {}), image_url: e.target.value }))}
                 />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>نام و نام خانوادگی *</Label>
-                  <Input value={draft.name || ""} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+                  <Input value={draft.name || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), name: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>سمت</Label>
-                  <Input value={draft.role || ""} onChange={(e) => setDraft({ ...draft, role: e.target.value })} />
+                  <Input value={draft.role || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), role: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>لقب (اختیاری)</Label>
-                  <Input value={draft.title || ""} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+                  <Input value={draft.title || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), title: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>ترتیب نمایش</Label>
                   <Input
                     type="number"
                     value={draft.display_order ?? 0}
-                    onChange={(e) => setDraft({ ...draft, display_order: Number(e.target.value) })}
+                    onChange={(e) => setDraft(prev => ({ ...(prev || {}), display_order: Number(e.target.value) }))}
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
                   <Label>بیوگرافی کوتاه</Label>
-                  <Textarea rows={2} value={draft.bio || ""} onChange={(e) => setDraft({ ...draft, bio: e.target.value })} />
+                  <Textarea rows={2} value={draft.bio || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), bio: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>تلگرام</Label>
-                  <Input dir="ltr" value={draft.telegram || ""} onChange={(e) => setDraft({ ...draft, telegram: e.target.value })} />
+                  <Input dir="ltr" value={draft.telegram || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), telegram: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>اینستاگرام</Label>
-                  <Input dir="ltr" value={draft.instagram || ""} onChange={(e) => setDraft({ ...draft, instagram: e.target.value })} />
+                  <Input dir="ltr" value={draft.instagram || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), instagram: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>لینکدین</Label>
-                  <Input dir="ltr" value={draft.linkedin || ""} onChange={(e) => setDraft({ ...draft, linkedin: e.target.value })} />
+                  <Input dir="ltr" value={draft.linkedin || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), linkedin: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>توییتر</Label>
-                  <Input dir="ltr" value={draft.twitter || ""} onChange={(e) => setDraft({ ...draft, twitter: e.target.value })} />
+                  <Input dir="ltr" value={draft.twitter || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), twitter: e.target.value }))} />
                 </div>
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <Switch
                     checked={draft.is_active ?? true}
-                    onCheckedChange={(v) => setDraft({ ...draft, is_active: v })}
+                    onCheckedChange={(v) => setDraft(prev => ({ ...(prev || {}), is_active: v }))}
                   />
                   <span className="text-sm">نمایش در سایت</span>
                 </div>
@@ -287,8 +290,8 @@ const TeamManager = () => {
                 <p className="text-sm text-primary truncate">{m.role}</p>
                 {m.title && <p className="text-xs text-muted-foreground truncate">{m.title}</p>}
                 <div className="flex gap-1 mt-2 flex-wrap">
-                  <Button size="icon" variant="ghost" onClick={() => setDraft(m)} title="ویرایش">
-                    <Save className="w-4 h-4" />
+                  <Button size="icon" variant="ghost" onClick={() => setDraft({ ...m })} title="ویرایش">
+                    <Edit2 className="w-4 h-4" />
                   </Button>
                   <Button size="icon" variant="ghost" onClick={() => toggleActive(m)} title="نمایش/عدم نمایش">
                     {m.is_active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4 text-muted-foreground" />}
