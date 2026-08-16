@@ -1,6 +1,6 @@
-import { Edit2, useEffect, useRef, useState } from "react";
-import { Edit2, motion, AnimatePresence } from "framer-motion";
-import { Edit2,
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
   Plus,
   Trash2,
   Save,
@@ -12,15 +12,16 @@ import { Edit2,
   Eye,
   EyeOff,
   Loader2,
+  Edit2,
 } from "lucide-react";
-import { Edit2, Button } from "@/components/ui/button";
-import { Edit2, Input } from "@/components/ui/input";
-import { Edit2, Textarea } from "@/components/ui/textarea";
-import { Edit2, Label } from "@/components/ui/label";
-import { Edit2, Switch } from "@/components/ui/switch";
-import { Edit2, supabase } from "@/integrations/supabase/client";
-import { Edit2, toast } from "sonner";
-import { Edit2, fileToCompressedDataUrl } from "@/lib/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { fileToCompressedDataUrl } from "@/lib/image";
 
 export interface TeamMember {
   id: string;
@@ -141,6 +142,8 @@ const TeamManager = () => {
     if (target < 0 || target >= members.length) return;
     const a = members[index];
     const b = members[target];
+    
+    // Perform updates
     await (supabase as any).from("team_members").update({ display_order: b.display_order }).eq("id", a.id);
     await (supabase as any).from("team_members").update({ display_order: a.display_order }).eq("id", b.id);
     fetchMembers();
@@ -202,55 +205,55 @@ const TeamManager = () => {
                 <Input
                   placeholder="یا آدرس عکس (URL)"
                   value={draft.image_url?.startsWith("data:") ? "" : draft.image_url || ""}
-                  onChange={(e) => setDraft({ ...draft, image_url: e.target.value })}
+                  onChange={(e) => setDraft(prev => ({ ...(prev || {}), image_url: e.target.value }))}
                 />
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>نام و نام خانوادگی *</Label>
-                  <Input value={draft.name || ""} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+                  <Input value={draft.name || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), name: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>سمت</Label>
-                  <Input value={draft.role || ""} onChange={(e) => setDraft({ ...draft, role: e.target.value })} />
+                  <Input value={draft.role || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), role: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>لقب (اختیاری)</Label>
-                  <Input value={draft.title || ""} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+                  <Input value={draft.title || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), title: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>ترتیب نمایش</Label>
                   <Input
                     type="number"
                     value={draft.display_order ?? 0}
-                    onChange={(e) => setDraft({ ...draft, display_order: Number(e.target.value) })}
+                    onChange={(e) => setDraft(prev => ({ ...(prev || {}), display_order: Number(e.target.value) }))}
                   />
                 </div>
                 <div className="space-y-2 sm:col-span-2">
                   <Label>بیوگرافی کوتاه</Label>
-                  <Textarea rows={2} value={draft.bio || ""} onChange={(e) => setDraft({ ...draft, bio: e.target.value })} />
+                  <Textarea rows={2} value={draft.bio || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), bio: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>تلگرام</Label>
-                  <Input dir="ltr" value={draft.telegram || ""} onChange={(e) => setDraft({ ...draft, telegram: e.target.value })} />
+                  <Input dir="ltr" value={draft.telegram || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), telegram: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>اینستاگرام</Label>
-                  <Input dir="ltr" value={draft.instagram || ""} onChange={(e) => setDraft({ ...draft, instagram: e.target.value })} />
+                  <Input dir="ltr" value={draft.instagram || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), instagram: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>لینکدین</Label>
-                  <Input dir="ltr" value={draft.linkedin || ""} onChange={(e) => setDraft({ ...draft, linkedin: e.target.value })} />
+                  <Input dir="ltr" value={draft.linkedin || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), linkedin: e.target.value }))} />
                 </div>
                 <div className="space-y-2">
                   <Label>توییتر</Label>
-                  <Input dir="ltr" value={draft.twitter || ""} onChange={(e) => setDraft({ ...draft, twitter: e.target.value })} />
+                  <Input dir="ltr" value={draft.twitter || ""} onChange={(e) => setDraft(prev => ({ ...(prev || {}), twitter: e.target.value }))} />
                 </div>
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <Switch
                     checked={draft.is_active ?? true}
-                    onCheckedChange={(v) => setDraft({ ...draft, is_active: v })}
+                    onCheckedChange={(v) => setDraft(prev => ({ ...(prev || {}), is_active: v }))}
                   />
                   <span className="text-sm">نمایش در سایت</span>
                 </div>
