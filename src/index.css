@@ -4,55 +4,55 @@
 
 @layer base {
   :root {
-    /* Premium Dark Theme with Golden Accents */
-    --background: 210 40% 4%;
+    /* Premium Dark Theme with Emerald / Jade Accents */
+    --background: 200 30% 4%;
     --foreground: 0 0% 98%;
 
-    --card: 210 40% 6%;
+    --card: 200 30% 7%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 210 40% 6%;
+    --popover: 200 30% 7%;
     --popover-foreground: 0 0% 98%;
 
-    /* Golden Primary */
-    --primary: 38 92% 50%;
-    --primary-foreground: 210 40% 4%;
+    /* Emerald Primary */
+    --primary: 160 84% 39%;
+    --primary-foreground: 200 30% 4%;
 
-    /* Dark Blue Secondary */
-    --secondary: 200 40% 12%;
+    /* Deep Charcoal Secondary */
+    --secondary: 195 25% 12%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 200 30% 15%;
-    --muted-foreground: 210 20% 65%;
+    --muted: 195 20% 15%;
+    --muted-foreground: 190 12% 68%;
 
-    --accent: 38 92% 50%;
-    --accent-foreground: 210 40% 4%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 200 30% 4%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 200 30% 18%;
-    --input: 200 30% 18%;
-    --ring: 38 92% 50%;
+    --border: 195 20% 18%;
+    --input: 195 20% 18%;
+    --ring: 160 84% 39%;
 
     --radius: 1rem;
 
-    /* Custom Colors */
-    --gold: 38 92% 50%;
-    --gold-light: 38 100% 65%;
-    --gold-dark: 38 90% 40%;
-    --dark-blue: 210 40% 8%;
-    --dark-blue-light: 200 35% 15%;
+    /* Brand accent scale (kept under the `gold` token names for compatibility) */
+    --gold: 160 84% 39%;
+    --gold-light: 158 64% 52%;
+    --gold-dark: 161 94% 27%;
+    --dark-blue: 200 30% 8%;
+    --dark-blue-light: 195 25% 15%;
 
     /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(38, 92%, 50%) 0%, hsl(38, 100%, 65%) 100%);
-    --gradient-dark: linear-gradient(180deg, hsl(210, 40%, 4%) 0%, hsl(200, 40%, 12%) 100%);
-    --gradient-radial: radial-gradient(circle at 50% 50%, hsl(200, 35%, 15%) 0%, transparent 70%);
+    --gradient-gold: linear-gradient(135deg, hsl(160, 84%, 39%) 0%, hsl(158, 64%, 52%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(200, 30%, 4%) 0%, hsl(195, 25%, 12%) 100%);
+    --gradient-radial: radial-gradient(circle at 50% 50%, hsl(195, 25%, 15%) 0%, transparent 70%);
 
     /* Shadows */
-    --shadow-gold: 0 0 60px -15px hsl(38, 92%, 50% / 0.5);
+    --shadow-gold: 0 0 60px -15px hsl(160, 84%, 39% / 0.5);
     --shadow-card: 0 25px 50px -12px hsl(0, 0%, 0% / 0.5);
-    --shadow-glow: 0 0 40px 0 hsl(38, 92%, 50% / 0.3);
+    --shadow-glow: 0 0 40px 0 hsl(160, 84%, 39% / 0.3);
 
     /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -292,8 +292,9 @@
 
 .orb-gold {
   background: hsl(var(--gold));
+  /* emerald brand orb */
 }
 
 .orb-blue {
-  background: hsl(200, 80%, 50%);
+  background: hsl(174, 72%, 45%);
 }

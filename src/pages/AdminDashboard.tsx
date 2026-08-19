@@ -122,7 +122,7 @@ const AdminDashboard = () => {
   return (
     <>
       <Helmet>
-        <title>پنل مدیریت | آژمان</title>
+        <title>پنل مدیریت | ازما</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

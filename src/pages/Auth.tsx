@@ -178,8 +178,8 @@ const Auth = () => {
   return (
     <>
       <Helmet>
-        <title>{isLogin ? "ورود" : "ثبت‌نام"} | آژمان</title>
-        <meta name="description" content="ورود یا ثبت‌نام در آژانس دیجیتال مارکتینگ آژمان" />
+        <title>{isLogin ? "ورود" : "ثبت‌نام"} | ازما</title>
+        <meta name="description" content="ورود یا ثبت‌نام در آژانس دیجیتال مارکتینگ ازما" />
       </Helmet>
 
       <div className="min-h-screen relative overflow-hidden bg-background">
@@ -222,7 +222,7 @@ const Auth = () => {
                 transition={{ delay: 0.3, type: "spring" }}
                 className="mb-8"
               >
-                <img src="/logo.webp" alt="آژمان" className="w-32 h-32 mx-auto" />
+                <img src="/logo.webp" alt="ازما" className="w-32 h-32 mx-auto" />
               </motion.div>
 
               <motion.h1
@@ -231,7 +231,7 @@ const Auth = () => {
                 transition={{ delay: 0.5 }}
                 className="text-4xl font-bold text-gradient-gold mb-4"
               >
-                به آژمان خوش آمدید
+                به ازما خوش آمدید
               </motion.h1>
 
               <motion.p
