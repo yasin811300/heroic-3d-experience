@@ -292,8 +292,9 @@
 
 .orb-gold {
   background: hsl(var(--gold));
+  /* emerald brand orb */
 }
 
 .orb-blue {
-  background: hsl(200, 80%, 50%);
+  background: hsl(174, 72%, 45%);
 }

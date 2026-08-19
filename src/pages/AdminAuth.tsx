@@ -127,7 +127,7 @@ const AdminAuth = () => {
   return (
     <>
       <Helmet>
-        <title>ورود ادمین | آژمان</title>
+        <title>ورود ادمین | ازما</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

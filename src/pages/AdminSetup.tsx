@@ -103,7 +103,7 @@ const AdminSetup = () => {
   return (
     <>
       <Helmet>
-        <title>راه‌اندازی ادمین | آژمان</title>
+        <title>راه‌اندازی ادمین | ازما</title>
         <meta name="robots" content="noindex, nofollow" />
         <link rel="canonical" href={`${window.location.origin}/admin/setup`} />
       </Helmet>
