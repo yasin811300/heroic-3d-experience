@@ -34,7 +34,11 @@ function getGeminiApiUrl($model = null) {
  * ارسال درخواست به Gemini با مدیریت خطا
  */
 function callGeminiAPI($prompt, $model = null) {
+    if (GEMINI_API_KEY === '') {
+        return ['error' => 'GEMINI_API_KEY تنظیم نشده است (متغیر محیطی سرور).'];
+    }
     $url = getGeminiApiUrl($model);
+
     
     $data = [
         "contents" => [
