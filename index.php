@@ -11,7 +11,7 @@ $settings_query = $conn->query("SELECT * FROM settings WHERE id=1");
 $settings = $settings_query ? $settings_query->fetch_assoc() : [
     'site_name' => 'آژانس دیجیتال مارکتینگ ازما',
     'phone_1' => '09914601322',
-    'phone_2' => '09300881413',
+    'phone_2' => '09300521812',
     'instagram' => 'yasinsalarnazm',
     'telegram' => 'yasinsalarnazm',
     'address' => 'همدان، شهرک مدنی، بلوار امام خمینی'
