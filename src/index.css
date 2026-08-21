@@ -82,6 +82,13 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
+
+
   /* Mobile Optimization - Prevent zoom on inputs */
   @media (max-width: 768px) {
     input, select, textarea {
