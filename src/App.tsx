@@ -24,6 +24,8 @@ import CustomerClub from "./pages/CustomerClub";
 import VPN from "./pages/VPN";
 import BuilderPage from "./pages/BuilderPage";
 import SmartCard from "./pages/SmartCard";
+import MobileBottomNav from "./components/MobileBottomNav";
+
 
 const queryClient = new QueryClient();
 
