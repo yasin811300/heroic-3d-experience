@@ -1,16 +1,19 @@
 <?php
-// فایل db.php - اتصال به دیتابیس
- $servername = "localhost";
- $username = "mzqdhyau_azma_db"; 
- $password = "Yasin@811300"; 
- $dbname = "mzqdhyau_azma_db"; 
+// فایل db.php - اتصال به دیتابیس (اطلاعات حساس فقط از متغیرهای محیطی)
+$servername = getenv('DB_HOST') ?: 'localhost';
+$username   = getenv('DB_USER') ?: '';
+$password   = getenv('DB_PASS') ?: '';
+$dbname     = getenv('DB_NAME') ?: '';
 
-// ایجاد اتصال
- $conn = new mysqli($servername, $username, $password, $dbname);
- $conn->set_charset("utf8mb4"); // پشتیبانی کامل از فارسی
+if ($username === '' || $dbname === '') {
+    die('پیکربندی دیتابیس ناقص است. متغیرهای محیطی DB_USER / DB_PASS / DB_NAME را تنظیم کنید.');
+}
 
-// بررسی اتصال (اگر خطا داد، نشون بده)
+$conn = new mysqli($servername, $username, $password, $dbname);
+$conn->set_charset("utf8mb4");
+
 if ($conn->connect_error) {
-    die("خطا در اتصال به دیتابیس: " . $conn->connect_error);
+    error_log('DB connect error: ' . $conn->connect_error);
+    die('خطا در اتصال به دیتابیس.');
 }
 ?>

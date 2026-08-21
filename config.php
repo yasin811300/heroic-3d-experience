@@ -11,9 +11,10 @@ if (!defined('AZMA_ACCESS')) {
     die('دسترسی مستقیم مجاز نیست');
 }
 
-// کلید API گوگل Gemini
-// توصیه: این کلید را از متغیرهای محیطی بخوانید
-define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'AIzaSyCUXMwx5VmStANuTs-faJa2emoRoBV8fdc');
+// کلید API گوگل Gemini - فقط از متغیر محیطی خوانده می‌شود
+// هیچ کلیدی نباید در سورس کد قرار بگیرد
+define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: '');
+
 
 // مدل پیش‌فرض Gemini
 define('GEMINI_MODEL', 'gemini-2.0-flash');
@@ -33,7 +34,11 @@ function getGeminiApiUrl($model = null) {
  * ارسال درخواست به Gemini با مدیریت خطا
  */
 function callGeminiAPI($prompt, $model = null) {
+    if (GEMINI_API_KEY === '') {
+        return ['error' => 'GEMINI_API_KEY تنظیم نشده است (متغیر محیطی سرور).'];
+    }
     $url = getGeminiApiUrl($model);
+
     
     $data = [
         "contents" => [

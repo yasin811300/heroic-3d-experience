@@ -24,6 +24,8 @@ import CustomerClub from "./pages/CustomerClub";
 import VPN from "./pages/VPN";
 import BuilderPage from "./pages/BuilderPage";
 import SmartCard from "./pages/SmartCard";
+import MobileBottomNav from "./components/MobileBottomNav";
+
 
 const queryClient = new QueryClient();
 
@@ -56,7 +58,9 @@ const App = () => (
             <Route path="/dashboard" element={<UserDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <MobileBottomNav />
         </BrowserRouter>
+
       </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
