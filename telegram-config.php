@@ -3,13 +3,18 @@
  * تنظیمات ربات تلگرام آژانس ازما - نسخه اصلاح شده
  */
 
-// اطلاعات ربات
-define('TELEGRAM_BOT_TOKEN', '8076417057:AAF0EHgQ7pFsAesjk4U9rRqUFZe7yu-kBWc');
-define('TELEGRAM_CHAT_ID', '764517175'); // Chat ID یاسین
+// اطلاعات ربات فقط از متغیرهای محیطی سرور خوانده می‌شوند.
+define('TELEGRAM_BOT_TOKEN', getenv('TELEGRAM_BOT_TOKEN') ?: '');
+define('TELEGRAM_CHAT_ID', getenv('TELEGRAM_CHAT_ID') ?: '');
+if (TELEGRAM_BOT_TOKEN === '' || TELEGRAM_CHAT_ID === '') {
+    error_log('Telegram configuration is missing.');
+    http_response_code(503);
+    exit('سرویس پیام‌رسان در دسترس نیست.');
+}
 define('TELEGRAM_API_URL', 'https://api.telegram.org/bot' . TELEGRAM_BOT_TOKEN);
 
 // تنظیمات امنیتی
-define('ADMIN_CHAT_IDS', ['764517175']);
+define('ADMIN_CHAT_IDS', [TELEGRAM_CHAT_ID]);
 
 // پوشه ذخیره فایل‌ها
 define('UPLOAD_DIR', __DIR__ . '/uploads/telegram/');

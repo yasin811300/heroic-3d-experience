@@ -315,9 +315,13 @@ switch (true) {
         $response .= "⚠️ از این ویژگی با احتیاط استفاده کنید!";
         
         // ذخیره حالت در دیتابیس یا Session
-        $conn->query("UPDATE bot_states SET state='waiting_broadcast', user_id='$user_id' WHERE user_id='$user_id'");
+        $stmt = $conn->prepare("UPDATE bot_states SET state = 'waiting_broadcast' WHERE user_id = ?");
+        $stmt->bind_param('s', $user_id);
+        $stmt->execute();
         if ($conn->affected_rows == 0) {
-            $conn->query("INSERT INTO bot_states (user_id, state) VALUES ('$user_id', 'waiting_broadcast')");
+            $stmt = $conn->prepare("INSERT INTO bot_states (user_id, state) VALUES (?, 'waiting_broadcast')");
+            $stmt->bind_param('s', $user_id);
+            $stmt->execute();
         }
         
         $keyboard = makeInlineKeyboard([
@@ -439,7 +443,10 @@ switch (true) {
     // پردازش پیام‌های عادی (برای broadcast)
     default:
         // بررسی حالت کاربر
-        $state_query = $conn->query("SELECT state FROM bot_states WHERE user_id='$user_id'");
+        $stmt = $conn->prepare("SELECT state FROM bot_states WHERE user_id = ?");
+        $stmt->bind_param('s', $user_id);
+        $stmt->execute();
+        $state_query = $stmt->get_result();
         if ($state_query && $state_query->num_rows > 0) {
             $state = $state_query->fetch_assoc()['state'];
             
@@ -461,7 +468,9 @@ switch (true) {
                 }
                 
                 // پاک کردن حالت
-                $conn->query("DELETE FROM bot_states WHERE user_id='$user_id'");
+                $stmt = $conn->prepare("DELETE FROM bot_states WHERE user_id = ?");
+                $stmt->bind_param('s', $user_id);
+                $stmt->execute();
                 
                 sendMessage($chat_id, "✅ پیام به $sent کاربر ارسال شد.\n❌ $failed ناموفق");
             } else {

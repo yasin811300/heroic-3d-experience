@@ -85,7 +85,10 @@ function processUpdate($update) {
     file_put_contents(__DIR__ . '/bot_log.txt', date('Y-m-d H:i:s') . " - $text\n", FILE_APPEND);
     
     // بررسی حالت کاربر
-    $state_query = $conn->query("SELECT state, data FROM bot_states WHERE user_id='$user_id'");
+    $stmt = $conn->prepare("SELECT state, data FROM bot_states WHERE user_id = ?");
+    $stmt->bind_param('s', $user_id);
+    $stmt->execute();
+    $state_query = $stmt->get_result();
     $user_state = null;
     $user_data = null;
     
@@ -482,12 +485,16 @@ function processUpdate($update) {
 function setState($user_id, $state, $data = null) {
     global $conn;
     $data_json = json_encode($data);
-    $conn->query("INSERT INTO bot_states (user_id, state, data) VALUES ('$user_id', '$state', '$data_json') ON DUPLICATE KEY UPDATE state='$state', data='$data_json'");
+    $stmt = $conn->prepare("INSERT INTO bot_states (user_id, state, data) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE state = VALUES(state), data = VALUES(data)");
+    $stmt->bind_param('sss', $user_id, $state, $data_json);
+    $stmt->execute();
 }
 
 function clearState($user_id) {
     global $conn;
-    $conn->query("DELETE FROM bot_states WHERE user_id='$user_id'");
+    $stmt = $conn->prepare("DELETE FROM bot_states WHERE user_id = ?");
+    $stmt->bind_param('s', $user_id);
+    $stmt->execute();
 }
 
 function handleState($state, $data, $message, $chat_id, $user_id) {
