@@ -4,6 +4,9 @@ define('AZMA_ACCESS', true);
 require_once 'config.php';
 
 header('Content-Type: text/html; charset=utf-8');
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+error_reporting(E_ALL);
 
 // فقط ادمین می‌تواند این صفحه را ببیند
 session_start();
@@ -15,7 +18,8 @@ $url = "https://generativelanguage.googleapis.com/v1beta/models?key=" . GEMINI_A
 
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
 echo "<h1>لیست مدل‌های فعال برای کلید شما:</h1>";
@@ -26,7 +30,8 @@ $err = curl_error($ch);
 curl_close($ch);
 
 if ($err) {
-    echo "<h3 style='color:red'>خطای اتصال: " . htmlspecialchars($err) . "</h3>";
+    error_log('Gemini model check failed: ' . $err);
+    echo "<h3 style='color:red'>خطا در ارتباط با سرویس.</h3>";
 } else {
     $data = json_decode($response, true);
     

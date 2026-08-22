@@ -4,7 +4,8 @@ define('AZMA_ACCESS', true);
 require_once 'config.php';
 
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
 ob_start();
 session_start();
 header('Content-Type: application/json; charset=utf-8');
@@ -27,23 +28,11 @@ try {
 
     if (!$input) throw new Exception('داده نامعتبر است.');
 
-    // --- بخش الف: درخواست ذخیره فایل ---
+    // نوشتن فایل از طریق عامل هوش مصنوعی عمداً غیرفعال است. حتی یک مدیر
+    // احرازشده نیز نباید بتواند کد اجرایی یا فایل‌های برنامه را بازنویسی کند.
     if (isset($input['action']) && $input['action'] == 'write') {
-        $filename = basename($input['filename']); // جلوگیری از path traversal
-        $content = $input['content'];
-        
-        // لیست سیاه فایل‌های حیاتی
-        $forbidden = ['db.php', 'auth.php', 'config.php', 'gemini-agent.php', 'admin-panel.php', '.htaccess'];
-        
-        if (in_array($filename, $forbidden) || strpos($filename, '..') !== false) {
-             throw new Exception('ویرایش این فایل امنیتی مجاز نیست.');
-        }
-        
-        if (file_put_contents($filename, $content) !== false) {
-             sendResponse(['result' => '✅ فایل ' . htmlspecialchars($filename) . ' با موفقیت ساخته/ویرایش شد.']);
-        } else {
-             throw new Exception('خطا در نوشتن فایل (دسترسی‌ها را چک کنید).');
-        }
+        http_response_code(403);
+        sendResponse(['error' => 'عملیات نوشتن فایل مجاز نیست.']);
     }
 
     // --- بخش ب: درخواست از هوش مصنوعی ---
@@ -90,7 +79,9 @@ try {
     
     sendResponse(['reply' => $result['text']]);
 
-} catch (Exception $e) {
-    sendResponse(['error' => $e->getMessage()]);
+} catch (Throwable $e) {
+    error_log('gemini-agent request failed: ' . $e->getMessage());
+    http_response_code(500);
+    sendResponse(['error' => 'پردازش درخواست با خطا مواجه شد.']);
 }
 ?>
