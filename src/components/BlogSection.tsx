@@ -1,120 +1,95 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Clock, User } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
-const posts = [
-  {
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    category: "سئو",
-    title: "۱۰ راهکار طلایی برای افزایش رتبه سایت در گوگل",
-    excerpt: "با این ترفندها سایت خود را به صفحه اول گوگل برسانید...",
-    author: "علی احمدی",
-    date: "۱۴۰۲/۰۹/۱۵",
-    readTime: "۵ دقیقه",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&h=600&fit=crop",
-    category: "اینستاگرام",
-    title: "چطور فالوور واقعی جذب کنیم؟",
-    excerpt: "راز افزایش فالوور بدون خرید و استفاده از روش‌های غیرقانونی...",
-    author: "سارا محمدی",
-    date: "۱۴۰۲/۰۹/۱۰",
-    readTime: "۷ دقیقه",
-  },
-  {
-    image: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop",
-    category: "طراحی سایت",
-    title: "ترندهای طراحی سایت در سال ۲۰۲۴",
-    excerpt: "جدیدترین استایل‌ها و تکنولوژی‌های طراحی وب را بشناسید...",
-    author: "محمد حسینی",
-    date: "۱۴۰۲/۰۹/۰۵",
-    readTime: "۶ دقیقه",
-  },
-];
+interface LatestPost {
+  id: string;
+  slug: string;
+  title: string;
+  category: string | null;
+  featured_image: string | null;
+  read_time: number | null;
+}
 
 const BlogSection = () => {
-  return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/5 to-background" />
+  const [posts, setPosts] = useState<LatestPost[]>([]);
 
-      <div className="container relative z-10">
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      const { data } = await supabase
+        .from("blog_posts")
+        .select("id, slug, title, category, featured_image, read_time")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false })
+        .limit(3);
+
+      setPosts(data ?? []);
+    };
+
+    fetchLatestPosts();
+  }, []);
+
+  if (posts.length === 0) return null;
+
+  return (
+    <section className="py-12 md:py-16 relative">
+      <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4"
+          className="flex items-end justify-between mb-6 gap-4"
         >
           <div>
-            <h2 className="text-3xl md:text-4xl font-black text-foreground mb-2">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground">
               آخرین <span className="text-gradient-gold">مقالات</span>
             </h2>
-            <p className="text-muted-foreground">دانش رایگان برای موفقیت شما</p>
           </div>
-          <Button variant="outline" className="hidden md:flex gap-2">
-            همه مقالات
-            <ArrowLeft className="w-4 h-4" />
+          <Button variant="ghost" size="sm" className="gap-2" asChild>
+            <Link to="/blog">همه مقالات <ArrowLeft className="w-4 h-4" /></Link>
           </Button>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
           {posts.map((post, index) => (
             <motion.article
-              key={post.title}
-              initial={{ opacity: 0, y: 40 }}
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              whileHover={{ y: -10 }}
-              className="group glass rounded-3xl overflow-hidden"
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              whileHover={{ y: -4 }}
+              className="group glass rounded-lg overflow-hidden"
             >
-              {/* Image */}
-              <div className="relative h-48 overflow-hidden">
-                <motion.img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent" />
-                
-                {/* Category Badge */}
-                <span className="absolute top-4 right-4 px-3 py-1 bg-primary/90 rounded-full text-primary-foreground text-xs font-bold">
-                  {post.category}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
-                  {post.excerpt}
-                </p>
-
-                {/* Meta */}
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    {post.author}
+              <Link to={`/blog/${post.slug}`} className="flex h-28 md:h-32">
+                {post.featured_image && (
+                  <div className="w-28 md:w-32 shrink-0 overflow-hidden">
+                    <img
+                      src={post.featured_image}
+                      alt={post.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {post.readTime}
+                )}
+                <div className="min-w-0 flex-1 p-4 flex flex-col justify-between">
+                  <div>
+                    {post.category && <span className="text-[11px] font-bold text-primary">{post.category}</span>}
+                    <h3 className="mt-1 text-sm md:text-base font-bold leading-6 text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                      {post.title}
+                    </h3>
                   </div>
+                  <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                    <Clock className="w-3.5 h-3.5" />
+                    {post.read_time ?? 5} دقیقه مطالعه
+                  </span>
                 </div>
-              </div>
+              </Link>
             </motion.article>
           ))}
-        </div>
-
-        {/* Mobile Button */}
-        <div className="mt-8 md:hidden">
-          <Button variant="outline" className="w-full gap-2">
-            همه مقالات
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
         </div>
       </div>
     </section>
